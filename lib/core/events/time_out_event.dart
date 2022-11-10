@@ -1,0 +1,3 @@
+class TimeOutEvent {
+  const TimeOutEvent();
+}
