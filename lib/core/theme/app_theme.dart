@@ -31,6 +31,7 @@ class AppTheme {
   static Color appGreen = const Color(0xFF17ab13);
   static Color appWhite = const Color(0xFFffffff);
   static Color appBlack = const Color(0xFF000000);
+  static Color appGrey = const Color(0xFF777777);
 
   Gradient get appGradient => const LinearGradient(
         colors: [Color(0xffef3f3f), Color(0xffffffff)],
@@ -136,44 +137,44 @@ ThemeData _buildTheme() {
 TextTheme _buildTextTheme(TextTheme base) {
   return base.copyWith(
     headline1: base.headline1!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     headline2: base.headline2!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     headline3: base.headline3!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     headline4: base.headline4!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     headline5: base.headline5!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     headline6: base.headline6!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
       fontSize: 26,
     ),
     subtitle1: base.subtitle1!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     subtitle2: base.subtitle2!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     bodyText1: base.bodyText1!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     bodyText2: base.bodyText2!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     caption: base.caption!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     button: base.button!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
     overline: base.overline!.copyWith(
-      fontFamily: 'Pangram',
+      fontFamily: 'Montserrat',
     ),
   );
 }

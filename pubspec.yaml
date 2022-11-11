@@ -45,6 +45,10 @@ dependencies:
   http: ^0.13.4
   connectivity_plus: ^2.1.0
   package_info_plus: ^1.4.2
+  flutter_smart_dialog: ^4.5.5+6
+  fluttertoast: ^8.0.8
+  url_launcher: ^6.1.6
+  webview_flutter: ^3.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,7 +90,20 @@ flutter:
     - family: LetsBakeMuffins
       fonts:
         - asset: assets/fonts/LetsBakeMuffins.ttf
-
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Light.otf
+          weight: 100
+        - asset: assets/fonts/Montserrat-Medium.otf
+          weight: 300
+        - asset: assets/fonts/Montserrat-Regular.otf
+        - asset: assets/fonts/Montserrat-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Montserrat-Thin.otf
+        - asset: assets/fonts/MontserratAlternates-Bold.otf
+        - asset: assets/fonts/MontserratAlternates-Medium.otf
+        - asset: assets/fonts/MontserratAlternates-Regular.otf
+        - asset: assets/fonts/MontserratAlternates-SemiBold.otf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

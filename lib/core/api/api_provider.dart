@@ -190,9 +190,10 @@ class ApiProvider {
         response.statusCode == 201 ||
         response.statusCode == 202) {
       final Map<String, dynamic> res = json.decode(response.body);
+      print('json res'+res.toString());
       int status = res['status'];
       if (status==200) {
-        return res['data'];
+        return res;
       } else {
         throw (HttpException(res['message']));
       }

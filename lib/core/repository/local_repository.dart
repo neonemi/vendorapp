@@ -90,14 +90,22 @@ class LocalRepository {
         (_preferences!.getString(SharedPrefKeys.usernameConstant) ?? "");
     return username;
   }
-
-  setPassword(String password) async {
-    return _preferences!.setString(SharedPrefKeys.passwordConstant, password);
+  setUserEmail(String email) async {
+    return _preferences!.setString(SharedPrefKeys.userEmailConstant, email);
   }
 
-  getPassword() async {
+  String getUserEmail() {
+    var username =
+    (_preferences!.getString(SharedPrefKeys.userEmailConstant) ?? "");
+    return username;
+  }
+  setMobile(String password) async {
+    return _preferences!.setString(SharedPrefKeys.mobileConstant, password);
+  }
+
+  getMobile() async {
     var password =
-        (_preferences!.getString(SharedPrefKeys.passwordConstant) ?? "");
+        (_preferences!.getString(SharedPrefKeys.mobileConstant) ?? "");
     return password;
   }
 
@@ -120,7 +128,30 @@ class LocalRepository {
     var userid = (_preferences!.getString(SharedPrefKeys.userIdConstant) ?? "");
     return userid;
   }
+  setAddress(String address) async {
+    return _preferences!.setString(SharedPrefKeys.addressConstant, address);
+  }
 
+  getAddress() async {
+    var userid = (_preferences!.getString(SharedPrefKeys.addressConstant) ?? "");
+    return userid;
+  }
+  setDob(String dob) async {
+    return _preferences!.setString(SharedPrefKeys.doBConstant, dob);
+  }
+
+  getDob() async {
+    var userid = (_preferences!.getString(SharedPrefKeys.doBConstant) ?? "");
+    return userid;
+  }
+  setAnniversary(String anniversary) async {
+    return _preferences!.setString(SharedPrefKeys.anniversaryConstant, anniversary);
+  }
+
+  getAniversary() async {
+    var userid = (_preferences!.getString(SharedPrefKeys.anniversaryConstant) ?? "");
+    return userid;
+  }
 }
 
 /// Add keys which will be used in
@@ -130,13 +161,16 @@ class SharedPrefKeys {
   static const String token = "token";
   static const loginConstant = "LOGIN";
   static const userTokenConstant = "USER_TOKEN";
-
+  static const addressConstant = "ADDRESS";
+  static const doBConstant = "DOB";
+  static const anniversaryConstant = "ANNIVERSARY";
   static const profileConstant = "PROFILE";
   static const usernameConstant = "USERNAME";
+  static const userEmailConstant = "EMAIL";
   static const profileCompleteConstant = "PROFILE_COMPLETE";
   static const fcmTokenConstant = "FCM_TOKEN";
   static const userIdConstant = "USERID";
-  static const passwordConstant = "PASSWORD";
+  static const mobileConstant = "MOBILE";
   static const countConstant = "COUNT";
   static const isDeviceRegisteredConstant = "IS_THIS_REGISTERED";
 

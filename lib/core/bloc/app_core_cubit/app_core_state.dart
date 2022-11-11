@@ -14,12 +14,12 @@ class AppCoreLoading extends AppCoreState {
   List<Object> get props => [];
 }
 
-class AppCoreNavigateToLandingPage extends AppCoreState {
+class AppCoreNavigateToRegisterPage extends AppCoreState {
   @override
   List<Object> get props => [];
 }
 
-class AppCoreNavigateToWelcomePage extends AppCoreState {
+class AppCoreNavigateToLoginPage extends AppCoreState {
   @override
   List<Object> get props => [];
 }

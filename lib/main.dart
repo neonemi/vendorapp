@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/ui/ui.dart';
 
 import 'core/core.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
     bool isDarkMode = brightness == Brightness.dark;
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: isDarkMode ? Colors.black : Colors.white,
+      statusBarColor: isDarkMode ? Colors.black : Colors.red,
     ));
     return MultiRepositoryProvider(
       providers: [
@@ -51,49 +53,61 @@ class MyApp extends StatelessWidget {
                 create: (context) => ConnectivityCubit(),
               ),
             ],
-            child:  MultiBlocListener(
-              listeners: [
-                BlocListener<AppCoreCubit, AppCoreState>(
-                  listener: (context, state) {
-                    if (state is AppCoreRequestTimeOut) {
-                      // _navKey.currentState!.context.showTimeOutAlert();
-                      // context.showToast(LocaleCoreKeys.core_timeOut.tr());
-                    }
-                    if (state is AppCoreRequestError) {
-                    //  _navKey.currentState!.context.showToast(state.error);
-                    }
-                  },
-                ),
-              ],
-              child: Column(
-                children: [
-                  BlocBuilder<ConnectivityCubit, ConnectivityState>(
-                    builder: (context, state) {
-                      if (state is ConnectivityOffline) {
-                        return _ConnectionStatusAppBar(
-                          title:"No internet",
-                        );
+            child:   GlobalLoaderOverlay(
+              overlayOpacity: 0.5,
+              overlayColor: Colors.brown.withOpacity(0.5),
+              useDefaultLoading: false,
+              overlayWidget:  Center(
+                child: CircularProgressIndicator(color: AppTheme.appRed,),
+              ),
+              child: MultiBlocListener(
+                listeners: [
+                  BlocListener<AppCoreCubit, AppCoreState>(
+                    listener: (context, state) {
+                      if (state is AppCoreRequestTimeOut) {
+                        _navKey.currentState!.context.showTimeOutAlert();
+                        context.showToast('Time Out');
                       }
-                      if (state is ConnectivityRestored) {
-                        return _ConnectionStatusAppBar(
-                          title:"Internet restored",
-                          color: Colors.green,
-                          icon: Icons.signal_wifi_4_bar,
-                        );
+                      if (state is AppCoreRequestError) {
+                       _navKey.currentState!.context.showToast(state.error);
                       }
-                      return const SizedBox.shrink();
                     },
                   ),
-                  Expanded(
-                    child: MaterialApp(
-                      navigatorKey: _navKey,
-                      title: 'Flutter Demo',
-                      debugShowCheckedModeBanner: false,
-                      theme: AppTheme().getThemeData(context),
-                      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-                    ),
-                  ),
                 ],
+                child: Column(
+                  children: [
+                    BlocBuilder<ConnectivityCubit, ConnectivityState>(
+                      builder: (context, state) {
+                        if (state is ConnectivityOffline) {
+                          return const _ConnectionStatusAppBar(
+                            title:"No internet",
+                            color: Colors.red,
+                            icon: Icons.signal_wifi_connected_no_internet_4,
+                          );
+                        }
+                        if (state is ConnectivityRestored) {
+                          return const _ConnectionStatusAppBar(
+                            title:"Internet restored",
+                            color: Colors.green,
+                            icon: Icons.signal_wifi_4_bar,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    Expanded(
+                      child: MaterialApp(
+                        navigatorKey: _navKey,
+                        title: 'Flutter Demo',
+                        navigatorObservers: [FlutterSmartDialog.observer],
+                        builder: FlutterSmartDialog.init(),
+                        debugShowCheckedModeBanner: false,
+                        theme: AppTheme().getThemeData(context),
+                        home: const SplashScreen(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -121,26 +135,34 @@ class _ConnectionStatusAppBar extends StatelessWidget {
     return Container(
       height: kToolbarHeight,
       width: double.maxFinite,
-      color: color ?? Colors.red,
+      color: color,
       padding: const EdgeInsets.only(bottom: 5),
       child: Align(
         alignment: Alignment.bottomCenter,
-        child: Row(
+        child:
+        Row(
+          textDirection: TextDirection.ltr,
+          // mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon ?? Icons.signal_wifi_connected_no_internet_4,
-              color: Colors.white,
-              size: 15,
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 15,
+              ),
             ),
             const SizedBox(width: 8),
-            Text(
+        Directionality(
+           textDirection: TextDirection.ltr,
+           child: Text(
               title,
               style: const TextStyle(
                 fontSize: 13,
                 color: Colors.white,
               ),
-            ),
+            )),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../core.dart';
 part 'app_core_state.dart';
@@ -28,14 +29,12 @@ class AppCoreCubit extends Cubit<AppCoreState> {
     await Future.delayed(const Duration(seconds: 3));
     bool user = await _repository.localRepository.isLoggedIn();
     String profile = await _repository.localRepository.getProfileComplete();
+    debugPrint('$user $profile');
     if (user == false) {
-      emit(AppCoreNavigateToLandingPage());
+      emit(AppCoreNavigateToLoginPage());
     } else if (profile.isEmpty) {
       // Home page
       emit(AppCoreNavigateToHomeScreen());
-    } else {
-      // Sign up flow
-      emit(AppCoreNavigateToWelcomePage());
     }
   }
 
