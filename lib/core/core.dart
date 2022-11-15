@@ -8,3 +8,4 @@ export 'package:equatable/equatable.dart';
 export 'bloc/bloc.dart';
 export 'utils/utils.dart';
 export 'model/model.dart';
+export 'enums/enums.dart';

@@ -18,9 +18,14 @@ class _SplashScreenState extends State<SplashScreen> {
       bloc: context.read<AppCoreCubit>()..checkUser(),
       listener: (context, state) {
         if (state is AppCoreNavigateToLoginPage) {
+          // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          //   builder: (context) {
+          //     return const LoginScreen();
+          //   },
+          // ), (e) => false);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
             builder: (context) {
-              return const LoginScreen();
+              return const HomeContainer();
             },
           ), (e) => false);
         }

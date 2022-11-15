@@ -1,0 +1,1 @@
+enum HomeItems { home, orderHistory, myCart, profile }
