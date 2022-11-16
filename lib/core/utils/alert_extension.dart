@@ -10,21 +10,34 @@ extension AlertExtension on BuildContext {
     final void Function()? onConfirm,
     String? confirmTextButton,
     String? cancelTextButton,
+    required double height,
+    required double width
   }) {
     SmartDialog.show(builder: (context) {
       return Container(
-        height: 180,
-        width: 180,
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         alignment: Alignment.center,
         child:Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children:[
-              Text('Alert',style: TextStyle(color: AppTheme.appBlack),textAlign: TextAlign.left,),
+              Container(
+                padding: EdgeInsets.all(8),
+                  child: Text('Alert',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600),textAlign: TextAlign.left,)),
+              if(message.isNotEmpty)Container(
+                  padding: const EdgeInsets.all(8),child: Text(message)),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  ElevatedButton(
+                    onPressed: () => SmartDialog.dismiss(),
+                    child: Text(cancelTextButton ??'Cancel',style: TextStyle(color: AppTheme.appBlack),textAlign: TextAlign.left,),
+                  ),
                   ElevatedButton(
                     //Colors.green,
                     onPressed: () {
@@ -32,10 +45,6 @@ extension AlertExtension on BuildContext {
                       SmartDialog.dismiss();
                     },
                     child: Text(confirmTextButton ??'Ok',style: TextStyle(color: AppTheme.appBlack),textAlign: TextAlign.left,),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => SmartDialog.dismiss(),
-                    child: Text(cancelTextButton ??'Cancel',style: TextStyle(color: AppTheme.appBlack),textAlign: TextAlign.left,),
                   ),
                 ],
               )

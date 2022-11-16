@@ -14,7 +14,7 @@ class BottomItemWidget extends StatelessWidget {
     required this.text
   }) : super(key: key);
 
-  final String image;
+  final IconData image;
   final String text;
   final bool isActive;
 
@@ -24,6 +24,7 @@ class BottomItemWidget extends StatelessWidget {
       print(text);
     }
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CustomPaint(
           painter:
@@ -40,18 +41,17 @@ class BottomItemWidget extends StatelessWidget {
           ),
         ),
 
-        Image.asset(
+        Icon(
           image,
-          height: 30,
-          width: 30,
+          size: 22,
           color:  AppTheme.appWhite,
         ),
         const SizedBox(
           height: 10,
         ),
         SizedBox(
-          height: 10,
-          child: Text(text,style: TextStyle(color: AppTheme.appWhite,fontSize: 10),),
+          height: 15,
+          child: Text(text,style: TextStyle(color: AppTheme.appWhite,fontSize: 12),),
         ),
       ],
     );

@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:vendorapp/ui/main/home/home_screen.dart';
 import 'package:vendorapp/ui/main/main.dart';
 
@@ -21,11 +21,23 @@ class HomeContainer extends StatefulWidget {
 class _HomeContainerState extends State<HomeContainer> {
   late HomeItems currentItem;
   DateTime? currentBackPressTime;
-
+  String userName = 'Guest';
   @override
   void initState() {
     super.initState();
     currentItem = widget.homeItem;
+    userData();
+  }
+
+  void userData() {
+    userName = context.read<LocalRepository>().getUserName();
+    if (userName.isEmpty) {
+      userName = 'Guest';
+    }
+    setState(() {
+      userName;
+    });
+    print('username $userName');
   }
 
   @override
@@ -47,7 +59,19 @@ class _HomeContainerState extends State<HomeContainer> {
       case HomeItems.home:
         return const HomeScreen();
       case HomeItems.orderHistory:
-        return const OrderHistoryScreen();
+        if (userName != 'Guest') {
+          return const OrderHistoryScreen();
+        } else {
+          AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue',cancelTextButton: 'No',confirmTextButton: 'Yes',onConfirm: (){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+              builder: (context) {
+                return const LoginScreen();
+              },
+            ), (e) => false);
+          }, height: 120, width: MediaQuery.of(context).size.width-40);
+          // showDialog();
+          return const HomeScreen();
+        }
       case HomeItems.myCart:
         return const CartScreen();
       case HomeItems.profile:
@@ -57,12 +81,20 @@ class _HomeContainerState extends State<HomeContainer> {
     }
   }
 
+  void showDialog() {
+    print('username hi');
+  }
+
   int _getPageIndex() {
     switch (currentItem) {
       case HomeItems.home:
         return 0;
       case HomeItems.orderHistory:
-        return 1;
+        if (userName != 'Guest') {
+          return 1;
+        } else {
+          return 0;
+        }
       case HomeItems.myCart:
         return 2;
       case HomeItems.profile:
@@ -81,7 +113,11 @@ class _HomeContainerState extends State<HomeContainer> {
           currentItem = HomeItems.home;
           break;
         case 1:
-          currentItem = HomeItems.orderHistory;
+          if (userName != 'Guest') {
+            currentItem = HomeItems.orderHistory;
+          } else {
+            currentItem = HomeItems.orderHistory;
+          }
           break;
         case 2:
           currentItem = HomeItems.myCart;
@@ -117,27 +153,30 @@ class _BottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-          data: Theme.of(context).copyWith(
-            // sets the background color of the `BottomNavigationBar`
-              canvasColor: AppTheme.appRed,
-              // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-              primaryColor: AppTheme.appRed,
-              textTheme: Theme
-                  .of(context)
-                  .textTheme
-                  .copyWith(caption: TextStyle(color:AppTheme.appWhite,))), // sets the inactive color of the `BottomNavigationBar`
+      data: Theme.of(context).copyWith(
+          // sets the background color of the `BottomNavigationBar`
+          canvasColor: AppTheme.appRed,
+          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          primaryColor: AppTheme.appRed,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                  caption: TextStyle(
+                color: AppTheme.appWhite,
+              ))), // sets the inactive color of the `BottomNavigationBar`
 
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
+      child: BottomNavigationBar(
+        selectedFontSize: 5,
+        type: BottomNavigationBarType.fixed,
         backgroundColor: AppTheme.appRed,
         currentIndex: currentPage,
         elevation: 0.0,
         onTap: onTapItem,
         items: [
-          _bottomNavigationBarItem(image: AppIconKeys.homeIcon, text: 'Home'),
-          _bottomNavigationBarItem(image: AppIconKeys.payment, text: 'Order History'),
-          _bottomNavigationBarItem(image: AppIconKeys.cards, text: 'My Cart'),
-          _bottomNavigationBarItem(image: AppIconKeys.placeholder, text: 'Profile'),
+          _bottomNavigationBarItem(image: FontAwesome.home, text: 'Home'),
+          _bottomNavigationBarItem(
+              image: FontAwesome.file_text, text: 'Order History'),
+          _bottomNavigationBarItem(
+              image: FontAwesome.shopping_cart, text: 'My Cart'),
+          _bottomNavigationBarItem(image: FontAwesome.male, text: 'Profile'),
         ],
       ),
     );
@@ -145,18 +184,20 @@ class _BottomNavigationBar extends StatelessWidget {
 }
 
 _bottomNavigationBarItem({
-  required String image,
+  required IconData image,
   required String text,
 }) {
   return BottomNavigationBarItem(
     icon: BottomItemWidget(
       isActive: false,
-      image: image, text: text,
+      image: image,
+      text: text,
     ),
     label: "",
     activeIcon: BottomItemWidget(
       isActive: true,
-      image: image, text: text,
+      image: image,
+      text: text,
     ),
   );
 }

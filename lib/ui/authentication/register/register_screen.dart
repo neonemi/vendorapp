@@ -259,7 +259,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     //launchPrivacyUrl(context: context, url: 'https://mundamisthan.com/privacypolicy');
                                     Navigator.of(context).push(MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                        const PrivacyScreen(url: 'https://mundamisthan.com/privacypolicy',)));
+                                         PrivacyScreen(url: Apis.privacyUrl, heading: "Privacy policy",)));
+
                                     },
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 5),

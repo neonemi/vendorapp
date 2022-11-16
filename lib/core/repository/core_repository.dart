@@ -85,14 +85,32 @@ class CoreRepository {
     }
     return RegisterUserResponse.fromJson(response);
   }
-  //  Future getUserInterestInfo(String key) async {
-  //     final Uri api = apiProvider
-  //         .getUri(Apis.userInfoInterests, queryParameters: {'key': key});
-  //     final response = await apiProvider.get(api);
-  //     UserInterestInfo userInfo = UserInterestInfo.fromJson(response);
-  //     return userInfo;
-  //   }
+   Future getBannerImage() async {
+      final Uri api = apiProvider
+          .getUri(Apis.bannerImageUrl);
+      final response = await apiProvider.get(api);
+      print('response 1 $response');
+      GetBannerImage bannerImage = GetBannerImage.fromJson(response);
+      print('response 2 $bannerImage');
+      return bannerImage;
+    }
 
+  Future getFoodCategory() async {
+    final Uri api = apiProvider
+        .getUri(Apis.categoryUrl);
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    GetFoodCategory foodCategory = GetFoodCategory.fromJson(response);
+    print('response 2 $foodCategory');
+    return foodCategory;
+  }
+//  Future getBannerImage(String key) async {
+//       final Uri api = apiProvider
+//           .getUri(Apis.bannerImageUrl, queryParameters: {'key': key});
+//       final response = await apiProvider.get(api);
+//       UserInterestInfo userInfo = UserInterestInfo.fromJson(response);
+//       return userInfo;
+//     }
   Future<bool> logout() {
     return localRepository.clearDatabase();
   }

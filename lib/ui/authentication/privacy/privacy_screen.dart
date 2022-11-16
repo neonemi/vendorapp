@@ -6,7 +6,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyScreen extends StatefulWidget {
   final String url;
-  const PrivacyScreen({Key? key, required this.url}) : super(key: key);
+  final String heading;
+  const PrivacyScreen({Key? key, required this.url,required this.heading}) : super(key: key);
 
   @override
   PrivacyScreenState createState() => PrivacyScreenState();
@@ -28,14 +29,16 @@ class PrivacyScreenState extends State<PrivacyScreen> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppTheme.appRed,
+          iconTheme:IconThemeData(color: AppTheme.appWhite ),
         title: Container(
           padding: const EdgeInsets.only(left: 10.0),
           height: 50,
           alignment: Alignment.centerLeft,
           child:  Text(
-            "Privacy policy",
+            widget.heading,
             style: TextStyle(
-                color: AppTheme.appBlack,
+                color: AppTheme.appWhite,
                 fontSize: 20,
                 fontStyle: FontStyle.normal,
                 fontFamily: "Montserrat"),

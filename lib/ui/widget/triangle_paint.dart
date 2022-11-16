@@ -19,10 +19,10 @@ class TrianglePainter extends CustomPainter {
 
   Path getTrianglePath(double x, double y) {
     return Path()
-      ..moveTo(0, -y+3)
+      ..moveTo(0, -y+7.5)
       ..lineTo(x/2 , 10)
-      ..lineTo(x+5, -y+3)
-      ..lineTo(5, -y+3);
+      ..lineTo(x+5, -y+7.5)
+      ..lineTo(5, -y+7.5);
   }
 
   @override

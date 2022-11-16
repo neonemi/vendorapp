@@ -71,7 +71,7 @@ ThemeData _buildTheme() {
       actionsIconTheme: IconThemeData(color: Color(0xFF000000)),
       foregroundColor: Color(0xFF000000),
     ),
-    scaffoldBackgroundColor: AppTheme.scaffoldBackground,
+
     canvasColor: Colors.white,
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(

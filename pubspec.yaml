@@ -49,6 +49,7 @@ dependencies:
   fluttertoast: ^8.0.8
   url_launcher: ^6.1.6
   webview_flutter: ^3.0.4
+  flutter_vector_icons: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
