@@ -15,7 +15,8 @@ class HomeVerticalList extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: categoryData.length,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const ScrollPhysics(),
+          shrinkWrap: true,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => {
