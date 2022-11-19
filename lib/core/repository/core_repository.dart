@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import '../core.dart';
 
 /// User authentication API call goes here
@@ -46,7 +47,7 @@ class CoreRepository {
   Future<OtpVerifyResponse> verifyOTP(
       {required String mobile, required String otp}) async {
     final Uri api = apiProvider.getUri(Apis.otpVerify);
-    String body = jsonEncode({'mobile': mobile, otp: otp});
+    String body = jsonEncode({'mobile': mobile, 'otp': otp});
     final response = await apiProvider.post(
       requestBody: body,
       endPoint: api,
@@ -70,7 +71,7 @@ class CoreRepository {
       'mobile': mobile,
       'name': name,
       'email': email,
-      'is_ios':Platform.isIOS?"1":"0"
+      'is_ios': Platform.isIOS ? "1" : "0"
     });
     final response = await apiProvider.post(
       requestBody: body,
@@ -79,54 +80,51 @@ class CoreRepository {
     if (kDebugMode) {
       print('json register $response');
     }
-    RegisterUserResponse registerUserResponse = RegisterUserResponse.fromJson(response);
+    RegisterUserResponse registerUserResponse =
+        RegisterUserResponse.fromJson(response);
     if (kDebugMode) {
       print('json 1 $registerUserResponse');
     }
     return RegisterUserResponse.fromJson(response);
   }
-   Future getBannerImage() async {
-      final Uri api = apiProvider
-          .getUri(Apis.bannerImageUrl);
-      final response = await apiProvider.get(api);
-      print('response 1 $response');
-      GetBannerImage bannerImage = GetBannerImage.fromJson(response);
-      print('response 2 $bannerImage');
-      return bannerImage;
-    }
+
+  Future getBannerImage() async {
+    final Uri api = apiProvider.getUri(Apis.bannerImageUrl);
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    GetBannerImage bannerImage = GetBannerImage.fromJson(response);
+    print('response 2 $bannerImage');
+    return bannerImage;
+  }
 
   Future getFoodCategory() async {
-    final Uri api = apiProvider
-        .getUri(Apis.categoryUrl);
+    final Uri api = apiProvider.getUri(Apis.categoryUrl);
     final response = await apiProvider.get(api);
     print('response 1 $response');
     GetFoodCategory foodCategory = GetFoodCategory.fromJson(response);
     print('response 2 $foodCategory');
     return foodCategory;
   }
+
   Future<UpdateProfileResponse> updateProfile(
-      {required String mobile,
-        required String name,
-        required String email,
-      required String userId,
+      {required String name,
+      required String email,
       required File? imageFile,
-      required String? dob,
-      required String? anniversary,
-      required String? address}) async {
+      required DateTime? dob,
+      required DateTime? anniversary}) async {
     final Uri api = apiProvider.getUri(Apis.updateProfile);
+    String address = await localRepository.getAddress();
+    String mobile = await localRepository.getMobile();
+    String userId = await localRepository.getUserId();
     String body = jsonEncode({
       'mobile': mobile,
       'name': name,
       'email': email,
-      'userid':userId,
-      if(imageFile!=null)
-      'image':imageFile,
-      if(dob!=null)
-      'dob':dob,
-      if(anniversary!=null)
-      'anniversary':anniversary,
-      if(address!=null)
-      'address':address
+      'userid': userId,
+      if (imageFile != null) 'image': imageFile,
+      if (dob != null) 'dob': dob.toString(),
+      if (anniversary != null) 'anniversary': anniversary.toString(),
+      if (address.isNotEmpty) 'address': address
     });
     final response = await apiProvider.post(
       requestBody: body,
@@ -135,7 +133,47 @@ class CoreRepository {
     if (kDebugMode) {
       print('json update profile $response');
     }
-    UpdateProfileResponse updateProfileResponse = UpdateProfileResponse.fromJson(response);
+    UpdateProfileResponse updateProfileResponse =
+        UpdateProfileResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $updateProfileResponse');
+    }
+    return UpdateProfileResponse.fromJson(response);
+  }
+  Future<UpdateProfileResponse> updateProfileFile(
+      {required String name,
+        required String email,
+        required File? imageFile,
+        required DateTime? dob,
+        required DateTime? anniversary}) async {
+    final Uri api = apiProvider.getUri(Apis.updateProfile);
+    String address = await localRepository.getAddress();
+    String mobile = await localRepository.getMobile();
+    String userId = await localRepository.getUserId();
+
+    var request = http.MultipartRequest("POST", api);
+    request.fields['mobile'] = mobile;
+    request.fields['name'] = name;
+    request.fields['email'] = email;
+    request.fields['userid'] = userId;
+    if (dob != null) {
+      request.fields['dob'] = dob.toString();
+    }
+    if (anniversary != null) {
+      request.fields['anniversary'] = anniversary.toString();
+    }
+    if (address.isNotEmpty) {
+      request.fields['address'] = address;
+    }
+    if (kDebugMode) {
+      print(imageFile!.path);
+    }
+    request.files.add(await http.MultipartFile.fromPath('image', imageFile!.path));
+    final response = await apiProvider.postMultipart(
+      request: request
+    );
+    UpdateProfileResponse updateProfileResponse =
+    UpdateProfileResponse.fromJson(response);
     if (kDebugMode) {
       print('json 1 $updateProfileResponse');
     }

@@ -79,16 +79,16 @@ class MyApp extends StatelessWidget {
                     BlocBuilder<ConnectivityCubit, ConnectivityState>(
                       builder: (context, state) {
                         if (state is ConnectivityOffline) {
-                          return const _ConnectionStatusAppBar(
+                          return  _ConnectionStatusAppBar(
                             title:"No internet",
-                            color: Colors.red,
+                            color: AppTheme.appRed,
                             icon: Icons.signal_wifi_connected_no_internet_4,
                           );
                         }
                         if (state is ConnectivityRestored) {
-                          return const _ConnectionStatusAppBar(
+                          return  _ConnectionStatusAppBar(
                             title:"Internet restored",
-                            color: Colors.green,
+                            color: AppTheme.appGreen,
                             icon: Icons.signal_wifi_4_bar,
                           );
                         }

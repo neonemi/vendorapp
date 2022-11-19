@@ -28,4 +28,18 @@ class OtpCubit extends Cubit<OtpState> {
       emit(OtpVerifyOTPError(message));
     }
   }
+
+  void resendOTP({
+    required String phoneNumber,
+  }) async {
+    emit(OtpLoading());
+    try {
+      OtpResponse otpResponse = await coreRepository.sendOTP(mobile: phoneNumber);
+
+      emit(resendOtpVerifyOTPSuccess(otpResponse));
+    } catch (e) {
+      String message = e.toString().replaceAll('api - ', '');
+      emit(OtpVerifyOTPError(message));
+    }
+  }
 }

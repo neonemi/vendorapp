@@ -57,6 +57,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         },
         child: Scaffold(
+          appBar:  PreferredSize(
+            preferredSize: const Size.fromHeight(0.0),
+            child: AppBar(
+              toolbarHeight: 0,
+              backgroundColor: AppTheme.appRed,
+              elevation: 0.0,
+            ),
+          ),
           body: SafeArea(
             child: GestureDetector(
               onTap: () {
@@ -71,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      color: Colors.red,
+                      color: AppTheme.appRed,
                       height: MediaQuery.of(context).size.height * 1 / 3,
                       width: MediaQuery.of(context).size.width,
                       child: Center(

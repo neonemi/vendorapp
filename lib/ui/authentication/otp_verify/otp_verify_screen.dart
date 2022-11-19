@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/core/icons/app_icon_keys.g.dart';
 import '../../../../core/core.dart';
+import '../../ui.dart';
 
 class OtpVerifyScreen extends StatefulWidget {
   final String phoneNumber;
@@ -47,7 +48,13 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
               // }, title: 'Alert');
               context.showToast(state.otpResponse.message.toString());
             } else {
+              print("json hello ${state.otpResponse.data}");
               context.showToast(state.otpResponse.message.toString());
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return const HomeContainer();
+                },
+              ), (e) => false);
             }
           }
           if (state is OtpVerifyOTPError) {
@@ -55,6 +62,14 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
           }
         },
         child: Scaffold(
+          appBar:  PreferredSize(
+            preferredSize: const Size.fromHeight(0.0),
+            child: AppBar(
+              toolbarHeight: 0,
+              backgroundColor: AppTheme.appRed,
+              elevation: 0.0,
+            ),
+          ),
           body: SafeArea(
             child: GestureDetector(
               onTap: () {
@@ -69,7 +84,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      color: Colors.red,
+                      color: AppTheme.appRed,
                       height: MediaQuery.of(context).size.height * 1 / 3,
                       width: MediaQuery.of(context).size.width,
                       child: Center(
@@ -212,11 +227,16 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            'Resend Now',
-                            style:
-                                TextStyle(fontSize: 16, color: AppTheme.appRed),
-                            textAlign: TextAlign.center,
+                          GestureDetector(
+                            onTap: (){
+                              _onTapResend(context);
+                            },
+                            child: Text(
+                              'Resend Now',
+                              style:
+                                  TextStyle(fontSize: 16, color: AppTheme.appRed),
+                              textAlign: TextAlign.center,
+                            ),
                           )
                         ],
                       ),
@@ -245,5 +265,11 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
     } else {
       context.showToast("Enter OTP");
     }
+  }
+  _onTapResend(BuildContext context) {
+    _hideKeyboard();
+    _cubit.resendOTP(
+        phoneNumber: widget.phoneNumber);
+
   }
 }

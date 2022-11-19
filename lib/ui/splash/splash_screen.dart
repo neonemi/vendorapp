@@ -23,13 +23,19 @@ class _SplashScreenState extends State<SplashScreen> {
           //     return const LoginScreen();
           //   },
           // ), (e) => false);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-            builder: (context) {
-              return const HomeContainer();
-            },
-          ), (e) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+              builder: (context) {
+                return const HomeContainer();
+              },
+            ), (e) => false);
         }
-        if (state is AppCoreNavigateToHomeScreen) {}
+        // if (state is AppCoreNavigateToHomeScreen) {
+        //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        //     builder: (context) {
+        //       return const HomeContainer();
+        //     },
+        //   ), (e) => false);
+        // }
       },
       child: Scaffold(
         backgroundColor: AppTheme.appRed,

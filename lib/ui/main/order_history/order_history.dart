@@ -16,9 +16,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.appWhite,
+        backgroundColor: AppTheme.appRed,
         centerTitle: true,
         elevation: 0.0,
+        iconTheme: IconThemeData(color: AppTheme.appWhite),
         title: Container(
           margin: const EdgeInsets.only(right: 40),
           height: 50,
@@ -26,7 +27,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           child: Text(
             'My Orders',
             style: TextStyle(
-                color: AppTheme.appBlack,
+                color: AppTheme.appWhite,
                 fontSize: 20,
                 fontStyle: FontStyle.normal,
                 fontFamily: "Montserrat"),

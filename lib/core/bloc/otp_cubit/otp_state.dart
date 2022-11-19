@@ -22,6 +22,14 @@ class OtpVerifyOTPSuccess extends OtpState {
   @override
   List<Object> get props => [otpResponse];
 }
+class resendOtpVerifyOTPSuccess extends OtpState {
+  const resendOtpVerifyOTPSuccess(this.otpResponse);
+
+  final OtpResponse otpResponse;
+
+  @override
+  List<Object> get props => [otpResponse];
+}
 
 class OtpVerifyOTPError extends OtpState {
   const OtpVerifyOTPError(this.message);

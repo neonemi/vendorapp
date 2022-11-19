@@ -30,12 +30,13 @@ class AppCoreCubit extends Cubit<AppCoreState> {
     bool user = await _repository.localRepository.isLoggedIn();
     String profile = await _repository.localRepository.getProfileComplete();
     debugPrint('$user $profile');
-    if (user == false) {
+
       emit(AppCoreNavigateToLoginPage());
-    } else if (profile.isEmpty) {
-      // Home page
-      emit(AppCoreNavigateToHomeScreen());
-    }
+
+    // else if (profile.isEmpty) {
+    //   // Home page
+    //   emit(AppCoreNavigateToHomeScreen());
+    // }
   }
 
   void requestTimeOut() {

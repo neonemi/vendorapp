@@ -17,6 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   String addressName = 'No Address Available';
   loadData(BuildContext context) async {}
   late final HomeCubit _cubit;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _cubit.close();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(

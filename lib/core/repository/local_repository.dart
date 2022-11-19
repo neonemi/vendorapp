@@ -99,14 +99,14 @@ class LocalRepository {
     (_preferences!.getString(SharedPrefKeys.userEmailConstant) ?? "");
     return username;
   }
-  setMobile(String password) async {
-    return _preferences!.setString(SharedPrefKeys.mobileConstant, password);
+  setMobile(String mobile) async {
+    return _preferences!.setString(SharedPrefKeys.mobileConstant, mobile);
   }
 
   getMobile() async {
-    var password =
+    var mobile =
         (_preferences!.getString(SharedPrefKeys.mobileConstant) ?? "");
-    return password;
+    return mobile;
   }
 
   setProfileComplete(String isYes) async {

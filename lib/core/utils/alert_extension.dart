@@ -56,6 +56,62 @@ extension AlertExtension on BuildContext {
   hideSuccessAlert(){
     SmartDialog.dismiss(status: SmartStatus.dialog);
   }
+  showCameraAlert({
+    required String title,
+    final void Function()? onCamera,
+    final void Function()? onGallery,
+    String? cancelTextButton,
+    required double height,
+    required double width
+  }) {
+    SmartDialog.show(builder: (context) {
+      return Container(
+        height: height,
+        width: width,
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        child:Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:[
+              Container(
+                  padding: EdgeInsets.all(8),
+                  child: Text(title,style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600,fontSize: 18),textAlign: TextAlign.left,)),
+              GestureDetector(
+               onTap: (){
+                     onCamera?.call();
+                     SmartDialog.dismiss();
+               },
+               child: Container(
+                    padding: const EdgeInsets.all(8),child:  Text('Camera',style: TextStyle(color: AppTheme.appBlack,fontSize: 14))),
+             ),
+              Divider(color: AppTheme.appGrey,),
+              GestureDetector(
+                onTap: (){
+                  onGallery?.call();
+                  SmartDialog.dismiss();
+                },
+                child: Container(
+                    padding: const EdgeInsets.all(8),child:  Text('Gallery',style: TextStyle(color: AppTheme.appBlack,fontSize: 14))),
+              ),
+              Divider(color: AppTheme.appGrey,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => SmartDialog.dismiss(),
+                    child: Text(cancelTextButton ??'Cancel',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600),textAlign: TextAlign.left,),
+                  ),
+                ],
+              )
+            ]),
+      );
+    });
+  }
   showSmartLoadingDialog() {
     SmartDialog.show(builder: (context) {
       return Container(

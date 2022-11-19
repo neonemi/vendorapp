@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:vendorapp/ui/main/home/home_screen.dart';
@@ -21,7 +22,7 @@ class HomeContainer extends StatefulWidget {
 class _HomeContainerState extends State<HomeContainer> {
   late HomeItems currentItem;
   DateTime? currentBackPressTime;
-  String userName = 'Guest';
+  bool login = false;
   @override
   void initState() {
     super.initState();
@@ -29,15 +30,14 @@ class _HomeContainerState extends State<HomeContainer> {
     userData();
   }
 
-  void userData() {
-    userName = context.read<LocalRepository>().getUserName();
-    if (userName.isEmpty) {
-      userName = 'Guest';
-    }
+  Future<void> userData() async {
+    login =await context.read<LocalRepository>().isLoggedIn();
     setState(() {
-      userName;
+      login;
     });
-    print('username $userName');
+    if (kDebugMode) {
+      print('is logged  $login');
+    }
   }
 
   @override
@@ -59,7 +59,7 @@ class _HomeContainerState extends State<HomeContainer> {
       case HomeItems.home:
         return const HomeScreen();
       case HomeItems.orderHistory:
-        if (userName != 'Guest') {
+        if (login != false) {
           return const OrderHistoryScreen();
         } else {
           AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue.',cancelTextButton: 'NO',confirmTextButton: 'YES',onConfirm: (){
@@ -90,7 +90,7 @@ class _HomeContainerState extends State<HomeContainer> {
       case HomeItems.home:
         return 0;
       case HomeItems.orderHistory:
-        if (userName != 'Guest') {
+        if (login != false) {
           return 1;
         } else {
           return 0;
@@ -113,7 +113,7 @@ class _HomeContainerState extends State<HomeContainer> {
           currentItem = HomeItems.home;
           break;
         case 1:
-          if (userName != 'Guest') {
+          if (login != false) {
             currentItem = HomeItems.orderHistory;
           } else {
             currentItem = HomeItems.orderHistory;
