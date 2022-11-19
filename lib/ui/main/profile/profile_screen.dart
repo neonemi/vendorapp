@@ -64,10 +64,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            AppIconKeys.userPlaceholder,
-                            height: 100,
-                            width: 100,
+                          GestureDetector(
+                            onTap:(){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                  const UpdateProfileScreen()));
+                    },
+                            child: Image.asset(
+                              AppIconKeys.userPlaceholder,
+                              height: 100,
+                              width: 100,
+                            ),
                           ),
                           Container(
                             margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -89,15 +96,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                  if(userName!='Guest')
-                  Text('Edit',style: TextStyle(color: AppTheme.appWhite,fontSize: 14))
+                 // if(userName!='Guest')
+                  GestureDetector(
+                    onTap:(){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          const UpdateProfileScreen()));
+                    },
+                      child: Text('Edit',style: TextStyle(color: AppTheme.appWhite,fontSize: 14)))
                   ],
                 ),
               ),
             ),
             ListBody(
               children: [
-                if(userName!='Guest')
+              //  if(userName!='Guest')
                 ListTile(
                   visualDensity:
                   const VisualDensity(horizontal: 0, vertical: -2),
@@ -123,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   },
                 ),
-                if(userName!='Guest')
+               // if(userName!='Guest')
                 ListTile(
                   visualDensity:
                   const VisualDensity(horizontal: 0, vertical: -2),
@@ -149,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   },
                 ),
-                if(userName!='Guest')
+                //if(userName!='Guest')
                 ListTile(
                   visualDensity:
                   const VisualDensity(horizontal: 0, vertical: -2),
@@ -231,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   },
                 ),
-                if(userName!='Guest')
+               // if(userName!='Guest')
                 ListTile(
                   visualDensity:
                   const VisualDensity(horizontal: 0, vertical: -2),
@@ -254,10 +267,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     size: 22,
                   ),
                   onTap: () {
-
+                    _onTapLogout(context);
                   },
                 ),
-                if(userName=='Guest')
+                //if(userName=='Guest')
                 ListTile(
                   visualDensity:
                   const VisualDensity(horizontal: 0, vertical: -2),
@@ -296,4 +309,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //const Center(child: Text("profile",style: TextStyle(color: Colors.red),));
   }
 
+  _onTapLogout(BuildContext context){
+    AlertExtension(context).showSuccessAlert(message: 'Are you sure, you want to logout?',cancelTextButton: 'NO',confirmTextButton: 'YES',onConfirm: (){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (context) {
+          return const LoginScreen();
+        },
+      ), (e) => false);
+    }, height: 150, width: MediaQuery.of(context).size.width-40);
+  }
 }

@@ -17,6 +17,7 @@ extension AlertExtension on BuildContext {
       return Container(
         height: height,
         width: width,
+        padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -28,7 +29,7 @@ extension AlertExtension on BuildContext {
             children:[
               Container(
                 padding: EdgeInsets.all(8),
-                  child: Text('Alert',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600),textAlign: TextAlign.left,)),
+                  child: Text('Alert',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600,fontSize: 18),textAlign: TextAlign.left,)),
               if(message.isNotEmpty)Container(
                   padding: const EdgeInsets.all(8),child: Text(message)),
               Row(

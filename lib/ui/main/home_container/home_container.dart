@@ -62,13 +62,13 @@ class _HomeContainerState extends State<HomeContainer> {
         if (userName != 'Guest') {
           return const OrderHistoryScreen();
         } else {
-          AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue',cancelTextButton: 'No',confirmTextButton: 'Yes',onConfirm: (){
+          AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue.',cancelTextButton: 'NO',confirmTextButton: 'YES',onConfirm: (){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
               builder: (context) {
                 return const LoginScreen();
               },
             ), (e) => false);
-          }, height: 120, width: MediaQuery.of(context).size.width-40);
+          }, height: 150, width: MediaQuery.of(context).size.width-40);
           // showDialog();
           return const HomeScreen();
         }

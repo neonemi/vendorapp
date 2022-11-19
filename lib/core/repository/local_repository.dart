@@ -133,16 +133,16 @@ class LocalRepository {
   }
 
   getAddress() async {
-    var userid = (_preferences!.getString(SharedPrefKeys.addressConstant) ?? "");
-    return userid;
+    var address = (_preferences!.getString(SharedPrefKeys.addressConstant) ?? "");
+    return address;
   }
   setDob(String dob) async {
     return _preferences!.setString(SharedPrefKeys.doBConstant, dob);
   }
 
   getDob() async {
-    var userid = (_preferences!.getString(SharedPrefKeys.doBConstant) ?? "");
-    return userid;
+    var dob = (_preferences!.getString(SharedPrefKeys.doBConstant) ?? "");
+    return dob;
   }
   setAnniversary(String anniversary) async {
     return _preferences!.setString(SharedPrefKeys.anniversaryConstant, anniversary);

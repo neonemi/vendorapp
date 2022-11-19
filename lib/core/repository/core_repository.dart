@@ -104,6 +104,43 @@ class CoreRepository {
     print('response 2 $foodCategory');
     return foodCategory;
   }
+  Future<UpdateProfileResponse> updateProfile(
+      {required String mobile,
+        required String name,
+        required String email,
+      required String userId,
+      required File? imageFile,
+      required String? dob,
+      required String? anniversary,
+      required String? address}) async {
+    final Uri api = apiProvider.getUri(Apis.updateProfile);
+    String body = jsonEncode({
+      'mobile': mobile,
+      'name': name,
+      'email': email,
+      'userid':userId,
+      if(imageFile!=null)
+      'image':imageFile,
+      if(dob!=null)
+      'dob':dob,
+      if(anniversary!=null)
+      'anniversary':anniversary,
+      if(address!=null)
+      'address':address
+    });
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json update profile $response');
+    }
+    UpdateProfileResponse updateProfileResponse = UpdateProfileResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $updateProfileResponse');
+    }
+    return UpdateProfileResponse.fromJson(response);
+  }
 //  Future getBannerImage(String key) async {
 //       final Uri api = apiProvider
 //           .getUri(Apis.bannerImageUrl, queryParameters: {'key': key});
