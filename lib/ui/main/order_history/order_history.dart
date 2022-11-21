@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../core/core.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({super.key});
+  final bool showAppBar;
+  const OrderHistoryScreen({super.key,required this.showAppBar});
 
   @override
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
@@ -15,7 +16,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   Widget build(BuildContext context) {
 
     return  Scaffold(
-      appBar: AppBar(
+      appBar: widget.showAppBar==true?AppBar(
         backgroundColor: AppTheme.appRed,
         centerTitle: true,
         elevation: 0.0,
@@ -34,9 +35,47 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             textAlign: TextAlign.center,
           ),
         ),
-      ),
-      body: ListView(
+      ):null,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
+          shrinkWrap: true,
+            children: [
+              if(widget.showAppBar==false)
+              Container(
+                 margin: const EdgeInsets.only(top: 10,bottom: 10),
+                height: 50,
+                alignment: Alignment.center,
+                child: Text(
+                  'My Orders',
+                  style: TextStyle(
+                      color: AppTheme.appBlack,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      fontFamily: "Montserrat"),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+              margin: widget.showAppBar==true? const EdgeInsets.only(top: 10,bottom: 10):null,
+                child: Text(
+                  'We are early waiting for your first order',
+                  style: TextStyle(
+                      color: AppTheme.appBlack,
+                      fontSize: 14,
+                      fontStyle: FontStyle.normal,
+                      fontFamily: "Montserrat"),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ListBody(
+                children: [
 
+                ],
+              )
+            ],
+        ),
       ),
     );
       //const Center(child: Text("order",style: TextStyle(color: Colors.red),));

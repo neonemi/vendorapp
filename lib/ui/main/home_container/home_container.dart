@@ -60,7 +60,7 @@ class _HomeContainerState extends State<HomeContainer> {
         return const HomeScreen();
       case HomeItems.orderHistory:
         if (login != false) {
-          return const OrderHistoryScreen();
+          return const OrderHistoryScreen(showAppBar: false,);
         } else {
           AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue.',cancelTextButton: 'NO',confirmTextButton: 'YES',onConfirm: (){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(

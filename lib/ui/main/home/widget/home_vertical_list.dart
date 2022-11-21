@@ -45,14 +45,15 @@ class HomeVerticalList extends StatelessWidget {
                       child: Container(
                         height: 50,
                         width: 100,
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppTheme.appWhite),
+                            border: Border.all(color: AppTheme.appWhite,width: 2),
+                            color: Colors.black12,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                             child: Text(
                           categoryData[index].name!,
-                          style: TextStyle(color: AppTheme.appWhite),
+                          style: TextStyle(color: AppTheme.appWhite,fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         )),
                       ),

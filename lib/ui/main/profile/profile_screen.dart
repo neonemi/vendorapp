@@ -184,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                    const OrderHistoryScreen()));
+                                    const OrderHistoryScreen(showAppBar: true,)));
                           },
                         ),
                         ListTile(

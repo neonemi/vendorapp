@@ -6,3 +6,4 @@ export 'register_cubit/register_cubit.dart';
 export 'home_cubit/home_cubit.dart';
 export 'update_profile/update_profile_cubit.dart';
 export 'profile_cubit/profile_cubit.dart';
+export 'address_cubit/address_cubit.dart';
