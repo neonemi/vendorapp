@@ -15,9 +15,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String addressName = 'No Address Available';
-  loadData(BuildContext context) async {}
+  loadData(BuildContext context) async {
+    return HomeCubit(context.read<CoreRepository>())..getBannerImage();
+  }
   late final HomeCubit _cubit;
 
+  @override
+  void initState() {
+    super.initState();
+   // _cubit = HomeCubit(context.read<CoreRepository>())..getFoodCategory();
+  }
   @override
   void dispose() {
     super.dispose();
@@ -25,13 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeCubit>(
+    return   MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeCubit>(
         create: (context) {
-          _cubit = HomeCubit(context.read<CoreRepository>())..getBannerImage();
+          _cubit=HomeCubit(context.read<CoreRepository>())..getBannerImage();
           return _cubit;
-        },
+        }),
+          // BlocProvider<HomeCubit>(
+          //     create: (context) {
+          //       return HomeCubit(context.read<CoreRepository>())..getFoodCategory();
+          //     }),
+    ],
         child: BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {
+            print(state);
             if (state is HomeLoading) {
               context.loaderOverlay.show();
             } else {
@@ -107,21 +122,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               BlocBuilder<HomeCubit, HomeState>(
                                   buildWhen: (previous, current) =>
                                       current is HomeSuccess,
+
                                   builder: (context, state) {
                                     if (state is HomeSuccess) {
-                                      GetBannerImage bannerImage =
-                                          state.response;
+                                      GetBannerImage bannerImage = state.response;
                                       if (kDebugMode) {
                                         print(
-                                            'response 3  ${bannerImage.data}');
+                                            'response 3  ${bannerImage}');
                                       }
                                       return bannerImage.data == null
-                                          ? const SizedBox.shrink()
+                                          ?  Container( height: 200,)
                                           : HomeHorizontalList(
                                               bannerData: bannerImage.data!,
                                             );
                                     }
-                                    return const SizedBox.shrink();
+                                    return Container( height: 200,);
                                   }),
                               searchBarClick(context,
                                   MediaQuery.of(context).size.width * 0.02),

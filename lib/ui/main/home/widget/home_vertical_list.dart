@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
 import '../../../ui.dart';
+import '../home.dart';
 
 class HomeVerticalList extends StatelessWidget {
   final List<CategoryData> categoryData;
@@ -20,7 +21,10 @@ class HomeVerticalList extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => {
-
+              Navigator.of(context).push(
+              MaterialPageRoute(
+              builder: (BuildContext context) =>
+               FoodItemScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!+1).toString():"",)))
               },
               child: Stack(
                 children: [

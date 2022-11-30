@@ -189,4 +189,29 @@ class CoreRepository {
   Future<bool> logout() {
     return localRepository.clearDatabase();
   }
+//https://mundamisthan.com/api/V1/products/2?sortbyprice=asc&type=1
+  Future getFoodProductFilter(String id,String sortBy,String type) async {
+    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id?sortbyprice=$sortBy&type=$type');
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
+    print('response 2 $foodCategory');
+    return foodCategory;
+  }
+    Future getFoodAllProduct(String id) async {
+    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id');
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
+    print('response 2 $foodCategory');
+    return foodCategory;
+  }
+  Future getFoodBestSeller(String id) async {
+    final Uri api = apiProvider.getUri('${Apis.bestSellerUrl}/$id');
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    GetBestSellerResponse foodCategory = GetBestSellerResponse.fromJson(response);
+    print('response 2 $foodCategory');
+    return foodCategory;
+  }
 }

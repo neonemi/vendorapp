@@ -8,6 +8,8 @@ class Apis {
   static String registerUrl = "register";
   static String bannerImageUrl = "bannerimage";
   static String categoryUrl = "category";
+  static String allProductUrl = "products";
+  static String bestSellerUrl = "bestsellers";
   static String privacyUrl = "https://mundamisthan.com/privacypolicy";
   static String menuUrl = "https://mundamisthan.com/menu";
 }
