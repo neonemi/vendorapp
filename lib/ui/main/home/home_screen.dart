@@ -55,115 +55,102 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: Scaffold(
             key: _scaffoldKey,
-            body: Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 20, bottom: 20),
-                physics: const NeverScrollableScrollPhysics(),
+            appBar: AppBar(
+              backgroundColor: AppTheme.appWhite,
+              iconTheme: IconThemeData(color: AppTheme.appWhite),
+              centerTitle: true,
+              elevation: 0.0,
+              leading:  Container(
+                // padding: EdgeInsets.only(left: 10.0),
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Center(
+                    child: Image.asset(AppIconKeys.homeIcon,
+                        width: 37,
+                        color: AppTheme.appBlack,
+                        height: 30),
+                  ),
+                ),
+              ),
+              title: Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  height: 50,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    addressName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: AppTheme.appBlack,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                        fontFamily: "Montserrat"),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+
+            ),
+            body: SingleChildScrollView(
+              child: Column(
                 children: [
                   Container(
-                    height: 50,
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          // padding: EdgeInsets.only(left: 10.0),
-                          alignment: Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Center(
-                              child: Image.asset(AppIconKeys.homeIcon,
-                                  width: 37,
-                                  color: AppTheme.appBlack,
-                                  height: 30),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            height: 50,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              addressName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: AppTheme.appBlack,
-                                  fontSize: 16,
-                                  fontStyle: FontStyle.normal,
-                                  fontFamily: "Montserrat"),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                      alignment: Alignment.topLeft,
-                      child: RefreshIndicator(
-                        color: AppTheme.appRed,
-                        onRefresh: () => loadData(context),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BlocBuilder<HomeCubit, HomeState>(
-                                  buildWhen: (previous, current) =>
-                                      current is HomeSuccess,
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    alignment: Alignment.topLeft,
+                    child: RefreshIndicator(
+                      color: AppTheme.appRed,
+                      onRefresh: () => loadData(context),
+                      child: ListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          BlocBuilder<HomeCubit, HomeState>(
+                              buildWhen: (previous, current) =>
+                                  current is HomeSuccess,
 
-                                  builder: (context, state) {
-                                    if (state is HomeSuccess) {
-                                      GetBannerImage bannerImage = state.response;
-                                      if (kDebugMode) {
-                                        print(
-                                            'response 3  ${bannerImage}');
-                                      }
-                                      return bannerImage.data == null
-                                          ?  Container( height: 200,)
-                                          : HomeHorizontalList(
-                                              bannerData: bannerImage.data!,
-                                            );
-                                    }
-                                    return Container( height: 200,);
-                                  }),
-                              searchBarClick(context,
-                                  MediaQuery.of(context).size.width * 0.02),
-                              BlocBuilder<HomeCubit, HomeState>(
-                                  buildWhen: (previous, current) =>
-                                      current is HomeCategorySuccess,
-                                  builder: (context, state) {
-                                    if (state is HomeCategorySuccess) {
-                                      GetFoodCategory foodCategory =
-                                          state.response;
-                                      if (kDebugMode) {
-                                        print(
-                                            'response 3  ${foodCategory.data}');
-                                      }
-                                      return foodCategory.data == null
-                                          ? const SizedBox.shrink(): SizedBox(
-                                          height: 300,
-                                          child: HomeVerticalList(categoryData: foodCategory.data!,));
-                                    }
-                                    return const SizedBox.shrink();
-                                  }),
-                            ],
-                          ),
-                        ),
+                              builder: (context, state) {
+                                if (state is HomeSuccess) {
+                                  GetBannerImage bannerImage = state.response;
+                                  if (kDebugMode) {
+                                    print(
+                                        'response 3  ${bannerImage}');
+                                  }
+                                  return bannerImage.data == null
+                                      ?  Container( height: 200,)
+                                      : HomeHorizontalList(
+                                          bannerData: bannerImage.data!,
+                                        );
+                                }
+                                return Container( height: 200,);
+                              }),
+                          searchBarClick(context,
+                              MediaQuery.of(context).size.width * 0.02),
+                          BlocBuilder<HomeCubit, HomeState>(
+                              buildWhen: (previous, current) =>
+                                  current is HomeCategorySuccess,
+                              builder: (context, state) {
+                                if (state is HomeCategorySuccess) {
+                                  GetFoodCategory foodCategory =
+                                      state.response;
+                                  if (kDebugMode) {
+                                    print(
+                                        'response 3  ${foodCategory.data}');
+                                  }
+                                  return foodCategory.data == null
+                                      ? const SizedBox.shrink(): SizedBox(
+                                     // height: 300,
+                                      child: HomeVerticalList(categoryData: foodCategory.data!,));
+                                }
+                                return const SizedBox.shrink();
+                              })
+                        ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

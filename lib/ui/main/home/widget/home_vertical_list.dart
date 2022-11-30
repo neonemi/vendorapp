@@ -11,12 +11,12 @@ class HomeVerticalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+     // height: 200,
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: categoryData.length,
-          physics: const ScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return GestureDetector(

@@ -13,11 +13,11 @@ class HomeHorizontalList extends StatelessWidget {
   Widget build(BuildContext context) {
    return Container(
      height: 200,
-     alignment: Alignment.center,
+     // alignment: Alignment.center,
      child: ListView.builder(
          scrollDirection: Axis.horizontal,
          itemCount: bannerData.length,
-         physics: const ScrollPhysics(),
+         physics: const ClampingScrollPhysics(),
          shrinkWrap: true,
          itemBuilder: (context, index) {
            return GestureDetector(
