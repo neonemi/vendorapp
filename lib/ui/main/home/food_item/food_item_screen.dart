@@ -207,6 +207,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                                           height: 200,
                                         )
                                       : Column(
+                                    mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
