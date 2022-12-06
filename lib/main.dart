@@ -1,14 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:hive/hive.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/ui/ui.dart';
-
+import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'core/core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Directory directory = await pathProvider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(CartAdapter());
+  await Hive.openBox('cartBox');
+  await Hive.openBox('keyedBox');
+  // Hive.box<Cart>('keyedBox');
   final LocalRepository localRepository = await LocalRepository.instance;
   runApp( MyApp( localRepository: localRepository,));
 }

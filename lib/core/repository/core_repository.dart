@@ -190,16 +190,28 @@ class CoreRepository {
     return localRepository.clearDatabase();
   }
 //https://mundamisthan.com/api/V1/products/2?sortbyprice=asc&type=1
+  //.getUri('${Apis.allProductUrl}/$id?sortbyprice=$sortBy&type=$type'
   Future getFoodProductFilter(String id,String sortBy,String type) async {
-    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id?sortbyprice=$sortBy&type=$type');
+      final Uri api = apiProvider
+          .getUri('${Apis.allProductUrl}/$id',queryParameters: {
+            'sortbyprice':sortBy,
+        'type':type
+      });
     final response = await apiProvider.get(api);
     print('response 1 $response');
     FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
     print('response 2 $foodCategory');
     return foodCategory;
   }
-    Future getFoodAllProduct(String id) async {
-    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id');
+    Future getFoodAllProduct(String id,String sortBy,String type) async {
+    // final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id');
+      final Uri api = apiProvider
+          .getUri('${Apis.allProductUrl}/$id',queryParameters: {
+        if(sortBy.isNotEmpty)
+          'sortbyprice': sortBy,
+        if(type.isNotEmpty)
+        'type':type
+      });
     final response = await apiProvider.get(api);
     print('response 1 $response');
     FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
@@ -213,5 +225,31 @@ class CoreRepository {
     GetBestSellerResponse foodCategory = GetBestSellerResponse.fromJson(response);
     print('response 2 $foodCategory');
     return foodCategory;
+  }
+  Future getFilter() async {
+    final Uri api = apiProvider.getUri(Apis.filterUrl);
+    final response = await apiProvider.get(api);
+    print('response 1 $response');
+    FilterResponse filterResponse = FilterResponse.fromJson(response);
+    print('response 2 $filterResponse');
+    return filterResponse;
+  }
+
+  Future<GetSearchProduct> getSearchProduct(
+      {required String text}) async {
+    final Uri api = apiProvider.getUri(Apis.searchUrl);
+    String body = jsonEncode({'q':text});
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json$response');
+    }
+    GetSearchProduct getSearchProduct = GetSearchProduct.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $getSearchProduct');
+    }
+    return getSearchProduct;
   }
 }

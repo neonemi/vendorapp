@@ -7,72 +7,68 @@ class SortDialogBuilder {
       );
 
   final BuildContext context;
-  bool selected = false;
 
   TextEditingController commentController = TextEditingController();
+
+  final List<Map<String, dynamic>> sortingList = [
+  {"sort": [
+    'PRICE LOW TO HIGH',
+    'PRICE HIGH TO LOW'
+  ],
+    "value":[
+      'asc',
+      'dsc'
+    ],
+    "select":[
+      false,
+      false
+    ]
+  }];
   showSortDialog(BuildContext context, final void Function(String)? onConfirm) {
-    Dialog dialog = Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+    var dialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       backgroundColor: AppTheme.appRed,
-      child: Container(
-        height: 180,
-        width: 250,
-        alignment: Alignment.center,
-        child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
-            // height:250,
-            // width: 250,
-            alignment: Alignment.center,
-            //margin: EdgeInsets.fromLTRB(0,10,0,10),
-             child: Column(
-               children: [
-                 ListTile(
-                   leading:selected != true
-                       ? Image.asset(AppIconKeys.unselected,
-                       height: 20,
-                       width: 20,)
-                       : Image.asset(AppIconKeys.selected,
-                       height: 20,
-                       width: 20,
+      insetPadding: const EdgeInsets.only(top: 60),
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width-20,
+        child: StatefulBuilder(builder: (context, setState) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: sortingList[0]["sort"].length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      trailing:sortingList[0]["select"][index] != true
+                          ? Image.asset(AppIconKeys.unselected,
+                          height: 20,
+                          width: 20,)
+                          : Image.asset(AppIconKeys.selected,
+                          height: 20,
+                          width: 20,
+                         ),
+                      title: Text(
+                        sortingList[0]["sort"][index],
+                        style: TextStyle(
+                            color: AppTheme.appWhite,
+                            fontSize: 16),
+                        textAlign: TextAlign.start,
                       ),
-                   title: Text(
-                     "PRICE LOW TO HIGH",
-                     style: TextStyle(
-                         color: AppTheme.appWhite,
-                         fontSize: 16),
-                     textAlign: TextAlign.start,
-                   ),
-                   onTap: () {
-
-                       selected=true;
-
-                   },
-                 ),
-                 ListTile(
-                   leading:selected != true
-                       ? Image.asset(AppIconKeys.unselected,
-                     height: 20,
-                     width: 20,)
-                       : Image.asset(AppIconKeys.selected,
-                     height: 20,
-                     width: 20,
-                   ),
-                   title: Text(
-                     "PRICE HIGH TO LOW",
-                     style: TextStyle(
-                         color: AppTheme.appWhite,
-                         fontSize: 16),
-                     textAlign: TextAlign.start,
-                   ),
-                   onTap: () {
-
-                     selected=true;
-
-                   },
-                 ),
-               ],
-             ),
+                      onTap: () {
+                          setState((){
+                            sortingList[0]["select"][index]=!sortingList[0]["select"][index];
+                          });
+                       onConfirm!(sortingList[0]["value"][index]);
+                          Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         )
       ),
     );

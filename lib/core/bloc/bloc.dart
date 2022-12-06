@@ -8,3 +8,6 @@ export 'update_profile/update_profile_cubit.dart';
 export 'profile_cubit/profile_cubit.dart';
 export 'address_cubit/address_cubit.dart';
 export 'food_item/food_item_cubit.dart';
+export 'filter_cubit/filter_cubit.dart';
+export 'food_details_cubit/food_details_cubit.dart';
+export 'search_cubit/search_cubit.dart';

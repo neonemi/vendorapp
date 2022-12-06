@@ -10,3 +10,4 @@ export 'utils/utils.dart';
 export 'model/model.dart';
 export 'enums/enums.dart';
 export 'icons/icons.dart';
+export 'hive/cart_adapter.dart';

@@ -28,9 +28,14 @@ class AppImageLoader extends StatelessWidget {
       width: width,
       fit: boxFit,
       errorBuilder: (context, error, stackTrace) {
-        return const Icon(
-         Entypo.emoji_sad,
-          size: 24,
+        return Container(
+          height: height,
+          width: width,
+          alignment: Alignment.center,
+          child: const Icon(
+           Entypo.emoji_sad,
+            size: 24,
+          ),
         );
       },
       loadingBuilder: (BuildContext context, Widget child,

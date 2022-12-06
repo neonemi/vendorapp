@@ -12,4 +12,6 @@ class Apis {
   static String bestSellerUrl = "bestsellers";
   static String privacyUrl = "https://mundamisthan.com/privacypolicy";
   static String menuUrl = "https://mundamisthan.com/menu";
+  static String filterUrl ="filters";
+  static String searchUrl ='search';
 }

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/core/core.dart';
 
+import '../../../ui.dart';
 import 'widget/widget.dart';
 
 class FoodItemScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
   late final FoodItemCubit _cubit;
   String itemName = "";
   String itemId = "";
+  bool visibleBestSeller=true;
   @override
   void initState() {
     super.initState();
@@ -48,14 +50,9 @@ class FoodItemScreenState extends State<FoodItemScreen> {
         providers: [
           BlocProvider<FoodItemCubit>(create: (context) {
             _cubit = FoodItemCubit(context.read<CoreRepository>())
-              ..getFoodProduct(itemId);
+              ..getFoodBestSeller(itemId);
             return _cubit;
           }),
-          // BlocProvider<FoodItemCubit>(create: (context) {
-          //   return  FoodItemCubit(context.read<CoreRepository>())
-          //     ..getFoodBestSeller(itemId);
-          // },
-          // lazy: false,),
         ],
         child: BlocListener<FoodItemCubit, FoodItemState>(
             listener: (context, state) {
@@ -93,27 +90,50 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                   ),
                 ),
                 actions: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Image.asset(
-                          AppIconKeys.swap,
-                          color: AppTheme.appWhite,
-                          height: 20,
-                          width: 20,
-                        )),
+                  GestureDetector(
+                    onTap:(){
+                      SortDialogBuilder(context).showSortDialog(context, (String value) {
+                        print(value);
+                        setState((){
+                          visibleBestSeller=false;
+                        });
+                        _cubit.getFoodProduct(itemId, value, "");
+                        // Navigator.of(context).pop;
+                      });
+            },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Image.asset(
+                            AppIconKeys.swap,
+                            color: AppTheme.appWhite,
+                            height: 20,
+                            width: 20,
+                          )),
+                    ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Image.asset(
-                          AppIconKeys.filter,
-                          color: AppTheme.appWhite,
-                          height: 20,
-                          width: 20,
-                        )),
+                  GestureDetector(
+                    onTap: (){
+                      FilterDialogBuilder(context).showFilterDialog(context, (String value) {
+                        print(value);
+                        setState((){
+                          visibleBestSeller=false;
+                        });
+                        _cubit.getFoodProduct(itemId, "", value);
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Image.asset(
+                            AppIconKeys.filter,
+                            color: AppTheme.appWhite,
+                            height: 20,
+                            width: 20,
+                          )),
+                    ),
                   )
                 ],
               ),
@@ -151,46 +171,49 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                               color: AppTheme.appBlack,
                             ),
                           ),
-                          BlocBuilder<FoodItemCubit, FoodItemState>(
-                              buildWhen: (previous, current) =>
-                                  current is FoodItemBestSellerSuccess,
-                              builder: (context, state) {
-                                if (state is FoodItemBestSellerSuccess) {
-                                  GetBestSellerResponse bestSellerData =
-                                      state.response;
-                                  if (kDebugMode) {
-                                    print('response 3  ${bestSellerData}');
+                          Visibility(
+                            visible: visibleBestSeller,
+                            child: BlocBuilder<FoodItemCubit, FoodItemState>(
+                                buildWhen: (previous, current) =>
+                                    current is FoodItemBestSellerSuccess,
+                                builder: (context, state) {
+                                  if (state is FoodItemBestSellerSuccess) {
+                                    GetBestSellerResponse bestSellerData =
+                                        state.response;
+                                    if (kDebugMode) {
+                                      print('response 3  $bestSellerData');
+                                    }
+                                    return bestSellerData.data == null
+                                        ? Container(
+                                          //  margin: const EdgeInsets.only(top: 50),
+                                            height: 250,
+                                          )
+                                        : Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text('Best Sellers',
+                                                style: TextStyle(
+                                                    color: AppTheme.appBlack,
+                                                    fontSize: 18,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: "Montserrat"),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            FoodBestSellerList(
+                                                bestSellerData: bestSellerData.data!,
+                                              ),
+                                          ],
+                                        );
                                   }
-                                  return bestSellerData.data == null
-                                      ? Container(
-                                        //  margin: const EdgeInsets.only(top: 50),
-                                          height: 250,
-                                        )
-                                      : Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('Best Sellers',
-                                              style: TextStyle(
-                                                  color: AppTheme.appBlack,
-                                                  fontSize: 18,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          FoodBestSellerList(
-                                              bestSellerData: bestSellerData.data!,
-                                            ),
-                                        ],
-                                      );
-                                }
-                                return Container(
-                                 // margin: const EdgeInsets.only(top: 50),
-                                  height: 250,
-                                );
-                              }),
+                                  return Container(
+                                   // margin: const EdgeInsets.only(top: 50),
+                                    height: 250,
+                                  );
+                                }),
+                          ),
 
                           BlocBuilder<FoodItemCubit, FoodItemState>(
                               buildWhen: (previous, current) =>
