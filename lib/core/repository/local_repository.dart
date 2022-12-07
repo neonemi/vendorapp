@@ -58,7 +58,16 @@ class LocalRepository {
         (_preferences!.getString(SharedPrefKeys.fcmTokenConstant) ?? "");
     return fcmToken;
   }
+  setCartList(String cartDataList) async {
+    return _preferences!.setString(SharedPrefKeys.cartDataList, cartDataList);
+  }
 
+  String getCartList()  {
+    String? cartDataList =
+    ( _preferences!.getString(SharedPrefKeys.cartDataList) ?? "");
+    //print(cartDataList);
+    return cartDataList;
+  }
   setIsRegistered(bool register) async {
     return _preferences!
         .setBool(SharedPrefKeys.isDeviceRegisteredConstant, register);
@@ -158,7 +167,7 @@ class LocalRepository {
 class SharedPrefKeys {
   SharedPrefKeys._();
 
-  static const String token = "token";
+  static const  token = "token";
   static const loginConstant = "LOGIN";
   static const userTokenConstant = "USER_TOKEN";
   static const addressConstant = "ADDRESS";
@@ -173,5 +182,6 @@ class SharedPrefKeys {
   static const mobileConstant = "MOBILE";
   static const countConstant = "COUNT";
   static const isDeviceRegisteredConstant = "IS_THIS_REGISTERED";
+  static const cartDataList="cartDataList";
 
 }
