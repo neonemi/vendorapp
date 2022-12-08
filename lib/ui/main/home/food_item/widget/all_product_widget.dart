@@ -1,13 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:vendorapp/ui/main/home/food_details/food_details_screen.dart';
 import '../../../../../core/controller/cart_controller.dart';
 import '../../../../../core/core.dart';
-import '../../../../../core/hive/hive_functions.dart';
 import '../../../../../core/model/cart_data.dart';
 import '../../../../ui.dart';
 
@@ -32,7 +28,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
   }
 
   Future<void> preference() async {
-    cartListString = context.read<LocalRepository>().getCartList()! ?? '';
+    cartListString = context.read<LocalRepository>().getCartList()?? '';
     setState(() {
       cartListString;
     });
@@ -51,15 +47,31 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
       ),
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => {},
-          child: Container(
+          onTap: ()  {
+            print(productData![index].id!);
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        FoodDetailsScreen(
+                            id: productData![index].id!,
+                            orderId: productData![index].id!,
+                            unitPrice: productData![index].price!,
+                            price: productData![index].price!,
+                            quantity: 1,
+                            productId: productData![index].id!,
+                            nameProduct: productData![index].name!,
+                            imageProduct:
+                            productData![index].image!, unitqty: productData![index].unitqty.toString(), unitqtyname: productData![index].unitqtyname.toString(),)));
+
+          },
+          child: SizedBox(
               width: 160,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     //height: 150,
                     width: 160,
                     child: ClipRRect(
@@ -83,7 +95,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                       style: TextStyle(color: AppTheme.appBlack, fontSize: 14),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 160,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,41 +114,37 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                             builder: (value) {
                           var cartDataList = <CartData>[].obs;
                           cartListString =
-                              context.read<LocalRepository>().getCartList()! ??
-                                  '';
+                              context.read<LocalRepository>().getCartList()?? '';
                           List<CartData>? cartList;
                           CartData? cartData;
                           if (cartListString != '') {
                             cartList = CartData.decode(cartListString);
 
                             cartDataList.value = cartList;
-                            //print(cartList);
 
                             List<CartData> outputList = cartList
                                 .where((o) => o.id == productData![index].id)
                                 .toList();
+
                             if (outputList.isNotEmpty) {
-                              // if(outputList.first.quantity! > 1) {
-                              //   cartData = outputList.first;
-                              // }else if(outputList.first.quantity! <= 1 ){
-                              //   cartData = outputList.last;
-                              // }
-                                 cartData = outputList.first;
 
+                              cartData = outputList.first;
+                            }else{
+                              cartData=null;
                             }
-
-                            // print('output cart'+cartData!.quantity.toString());
                           }
 
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               if (cartData != null &&
-                                  cartData!.quantity! >= 1 &&
-                                  cartData!.id == productData![index].id)
+                                  cartData.quantity! >= 1 &&
+                                  cartData.id == productData![index].id)
                                 GestureDetector(
                                   onTap: () {
-                                    print(cartData!.quantity);
+                                    if (kDebugMode) {
+                                      print(cartData!.quantity);
+                                    }
                                     cartController
                                         .counterRemoveProductToCart(cartData!);
                                     preference();
@@ -154,20 +162,20 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                                       )),
                                 ),
                               if (cartData != null &&
-                                  cartData!.quantity! >= 1 &&
-                                  cartData!.id == productData![index].id)
+                                  cartData.quantity! >= 1 &&
+                                  cartData.id == productData![index].id)
                                 const SizedBox(
                                   width: 5,
                                 ),
                               if (cartData != null &&
-                                  cartData!.quantity! >= 1 &&
-                                  cartData!.id == productData![index].id)
+                                  cartData.quantity! >= 1 &&
+                                  cartData.id == productData![index].id)
                                 Builder(builder: (context) {
                                   return Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         cartData != null
-                                            ? '${cartData!.quantity}'
+                                            ? '${cartData.quantity}'
                                             : '',
                                         style: TextStyle(
                                             color: AppTheme.appRed,
@@ -179,40 +187,34 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // print(cartData);
                                   if (cartData != null) {
-                                    print(1);
-                                    print(cartData!.quantity);
-                                    print(cartData!.quantity);
-                                    //if(cartData!.id==productData![index].id) {
-
-                                    if(cartData.quantity! >= 1) {
-                                      cartController
-                                          .counterAddProductToCart(cartData!);
-                                    }else{
-                                      print(3);
-                                         cartController.addProductToCart(id: productData![index]!.id!, orderId: productData![index]!.id!, unitPrice: productData![index]!.price!, price: productData![index]!.price!, quantity: 1, productId: productData![index]!.id!, nameProduct: productData![index]!.name!, imageProduct: productData![index]!.image!);
-
+                                    if (kDebugMode) {
+                                      print('1 condition');
                                     }
-                                    // }else{
-                                    //    print(4);
-                                    //    cartController.addProductToCart(id: productData![index]!.id!, orderId: productData![index]!.id!, unitPrice: productData![index]!.price!, price: productData![index]!.price!, quantity: 1, productId: productData![index]!.id!, nameProduct: productData![index]!.name!, imageProduct: productData![index]!.image!);
-                                    //
-                                    //  }
+                                      cartController
+                                          .counterAddProductToCart(cartData);
+                                      preference();
+                                      if (kDebugMode) {
+                                        print('3 condition');
+                                      }
+
                                   } else {
-                                    print(2);
+                                    if (kDebugMode) {
+                                      print(2);
+                                    }
                                     cartController.addProductToCart(
-                                        id: productData![index]!.id!,
-                                        orderId: productData![index]!.id!,
-                                        unitPrice: productData![index]!.price!,
-                                        price: productData![index]!.price!,
+                                        id: productData![index].id!,
+                                        orderId: productData![index].id!,
+                                        unitPrice: productData![index].price!,
+                                        price: productData![index].price!,
                                         quantity: 1,
-                                        productId: productData![index]!.id!,
-                                        nameProduct: productData![index]!.name!,
+                                        productId: productData![index].id!,
+                                        nameProduct: productData![index].name!,
                                         imageProduct:
-                                            productData![index]!.image!);
+                                            productData![index].image!);
+                                    preference();
                                   }
-                                  preference();
+
                                 },
                                 child: Container(
                                     height: 20,

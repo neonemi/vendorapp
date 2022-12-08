@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vendorapp/ui/ui.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../core/controller/cart_controller.dart';
+import '../../../../core/model/cart_data.dart';
 
 
 class SearchProductScreen extends StatelessWidget {
@@ -55,51 +58,52 @@ class SearchProductScreen extends StatelessWidget {
                   ),
                   Container(
                     width: 160,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '₹${productData[index].price!}',
-                              style: TextStyle(
-                                  color: AppTheme.appRed,
-                                  fontWeight: FontWeight.w600,fontSize: 14),
-                            )),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                                height: 20,width: 20,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: AppTheme.appRed
-                                ),
-                                child: Icon(Icons.remove,color: AppTheme.appBlack,size: 15,)
-                            ),
-                            const SizedBox(width: 5,),
                             Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  productData[index].isActive!.toString(),
+                                  '₹${productData[index].price!}',
                                   style: TextStyle(
                                       color: AppTheme.appRed,
-                                      fontWeight: FontWeight.w600),
+                                      fontWeight: FontWeight.w600,fontSize: 14),
                                 )),
-                            const SizedBox(width: 5,),
-                            Container(
-                                height: 20,width: 20,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: AppTheme.appRed
-                                ),
-                                child: Icon(Icons.add,color: AppTheme.appBlack,size: 15,)
-                            ),
-                          ],
-                        ),
 
-                      ],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                    height: 20,width: 20,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.appRed
+                                    ),
+                                    child: Icon(Icons.remove,color: AppTheme.appBlack,size: 15,)
+                                ),
+                                const SizedBox(width: 5,),
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      productData[index].isActive!.toString(),
+                                      style: TextStyle(
+                                          color: AppTheme.appRed,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                                const SizedBox(width: 5,),
+                                Container(
+                                    height: 20,width: 20,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.appRed
+                                    ),
+                                    child: Icon(Icons.add,color: AppTheme.appBlack,size: 15,)
+                                ),
+                              ],
+                            ),
+
+                          ],
+
                     ),
                   ),
                 ],

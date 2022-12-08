@@ -52,8 +52,9 @@ class CartController extends GetxController {
   print('add product${cartData.quantity}');
  //
  //    int quantityUpdate = cartData.quantity! > 0?cartData.quantity!:0 + 1;
- if(cartData.quantity! >= 1){
+ // if(cartData.quantity! >= 1){
    int quantityUpdate = cartData.quantity! + 1;
+  if(quantityUpdate>=1){
       CartData cartUpdate = CartData(
         id: cartData.id,
         orderId: cartData.orderId,
@@ -70,14 +71,25 @@ class CartController extends GetxController {
       final String encodedData = CartData.encode(cartDataList);
       localRepository.setCartList(encodedData);
       update();
-    }
+    }else{
+    addProductToCart(
+      id: cartData.id!,
+      orderId: cartData.orderId!,
+      productId: cartData.orderId!,
+      unitPrice: cartData.unitPrice!,
+      quantity: quantityUpdate,
+      price: cartData.price!,
+      nameProduct: cartData.name!, imageProduct: cartData.image!,
+    );
+  }
+    // }
   }
 
   Future<void> counterRemoveProductToCart(CartData cartData) async {
-    print(cartData.quantity!);
-    // if(cartData.quantity!>=1){
+    print('remove${cartData.quantity!}');
+    if(cartData.quantity!>=1){
       int quantityUpdate = cartData.quantity! + -1;
-    print(quantityUpdate);
+    print('remove $quantityUpdate');
       CartData cartUpdate = CartData(
         id: cartData.id,
         orderId: cartData.orderId,
@@ -95,7 +107,9 @@ class CartController extends GetxController {
       final String encodedData = CartData.encode(cartDataList);
       localRepository.setCartList(encodedData);
       update();
-    // }
+    }else{
+      deleteFromCart(idOrder: cartData.orderId!);
+    }
   }
 
   double cartTotalPrice() {
