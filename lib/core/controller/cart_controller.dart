@@ -29,7 +29,7 @@ class CartController extends GetxController {
         required int productId,
         required String nameProduct,
         required String imageProduct}) async {
-
+    print('add product${quantity}');
       cartDataList.add(
         CartData(
           id: id,
@@ -49,7 +49,7 @@ class CartController extends GetxController {
 
 
   Future<void> counterAddProductToCart(CartData cartData) async {
- // print('add product'+cartData.quantity.toString());
+  print('add product${cartData.quantity}');
  //
  //    int quantityUpdate = cartData.quantity! > 0?cartData.quantity!:0 + 1;
  if(cartData.quantity! >= 1){

@@ -116,15 +116,13 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                                 .where((o) => o.id == productData![index].id)
                                 .toList();
                             if (outputList.isNotEmpty) {
-                              // print('output${outputList.first.id}');
-                              // print(123);
-                              // if (outputList.first.quantity! >=
-                              //     outputList.last.quantity!) {
-                                cartData = outputList.first;
-                              // }
-                              // else {
+                              // if(outputList.first.quantity! > 1) {
+                              //   cartData = outputList.first;
+                              // }else if(outputList.first.quantity! <= 1 ){
                               //   cartData = outputList.last;
                               // }
+                                 cartData = outputList.first;
+
                             }
 
                             // print('output cart'+cartData!.quantity.toString());
@@ -187,11 +185,12 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                                     print(cartData!.quantity);
                                     print(cartData!.quantity);
                                     //if(cartData!.id==productData![index].id) {
-                                    print(3);
+
                                     if(cartData.quantity! >= 1) {
                                       cartController
                                           .counterAddProductToCart(cartData!);
                                     }else{
+                                      print(3);
                                          cartController.addProductToCart(id: productData![index]!.id!, orderId: productData![index]!.id!, unitPrice: productData![index]!.price!, price: productData![index]!.price!, quantity: 1, productId: productData![index]!.id!, nameProduct: productData![index]!.name!, imageProduct: productData![index]!.image!);
 
                                     }
