@@ -231,7 +231,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: AppTheme.appBlack,
                             size: 22,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                const AddressScreen()));
+                          },
                         ),
                         ListTile(
                           visualDensity:

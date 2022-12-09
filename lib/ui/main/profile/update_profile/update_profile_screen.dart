@@ -983,9 +983,9 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     //////// HERE
                                   ),
                                   onPressed: () => _onTapUpdate(context),
-                                  child: const Text(
+                                  child:  Text(
                                     "Update",
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 16,color: AppTheme.appWhite),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

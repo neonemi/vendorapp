@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vendorapp/core/icons/app_icon_keys.g.dart';
 
 import '../../core/core.dart';
 import '../ui.dart';

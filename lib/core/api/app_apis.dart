@@ -14,4 +14,8 @@ class Apis {
   static String menuUrl = "https://mundamisthan.com/menu";
   static String filterUrl ="filters";
   static String searchUrl ='search';
+  static String addAddressUrl ='addaddress';
+  static String updateAddressUrl ='updateaddress';
+  static String defaultaddressUrl ='defaultaddress';
+  static String deleteaddressUrl ='deleteaddress';
 }

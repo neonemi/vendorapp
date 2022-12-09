@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:vendorapp/core/icons/app_icon_keys.g.dart';
 import '../../../../core/core.dart';
 import '../../ui.dart';
 

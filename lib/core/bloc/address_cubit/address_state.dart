@@ -17,12 +17,35 @@ class AddressLoading extends AddressState {
 class AddressSuccess extends AddressState {
   const AddressSuccess(this.response);
 
-  final OtpResponse response;
+  final SuccessResponse response;
 
   @override
   List<Object> get props => [response];
 }
+class UpdateAddressSuccess extends AddressState {
+  const UpdateAddressSuccess(this.response);
 
+  final SuccessResponse response;
+
+  @override
+  List<Object> get props => [response];
+}
+class DefaultAddressSuccess extends AddressState {
+  const DefaultAddressSuccess(this.response);
+
+  final SuccessResponse response;
+
+  @override
+  List<Object> get props => [response];
+}
+class DeleteAddressSuccess extends AddressState {
+  const DeleteAddressSuccess(this.response);
+
+  final SuccessResponse response;
+
+  @override
+  List<Object> get props => [response];
+}
 class AddressError extends AddressState {
   const AddressError(this.message);
 

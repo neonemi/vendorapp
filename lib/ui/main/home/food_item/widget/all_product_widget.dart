@@ -9,14 +9,15 @@ import '../../../../ui.dart';
 
 class FoodAllProductScreen extends StatefulWidget {
   final List<ProductListData> productData;
-  const FoodAllProductScreen({super.key, required this.productData});
+  final String itemName;
+  const FoodAllProductScreen({super.key, required this.productData,required this.itemName});
   @override
   FoodAllProductScreenState createState() => FoodAllProductScreenState();
 }
 
 class FoodAllProductScreenState extends State<FoodAllProductScreen> {
   List<ProductListData>? productData;
-
+  String? itemName;
   final cartController = Get.find<CartController>();
   int selectedIndex = 0;
   String cartListString = '';
@@ -24,6 +25,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
   void initState() {
     super.initState();
     productData = widget.productData;
+    itemName=widget.itemName;
     preference();
   }
 
@@ -48,7 +50,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: ()  {
-            print(productData![index].id!);
+            // print(productData![index].id!);
             Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -61,7 +63,8 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                             productId: productData![index].id!,
                             nameProduct: productData![index].name!,
                             imageProduct:
-                            productData![index].image!, unitqty: productData![index].unitqty.toString(), unitqtyname: productData![index].unitqtyname.toString(),)));
+                            productData![index].image!, unitqty: productData![index].unitqty.toString(), unitqtyname: productData![index].unitqtyname.toString(),
+                             categoryName: itemName!,)));
 
           },
           child: SizedBox(

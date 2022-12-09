@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/core.dart';
-import '../../../core/icons/app_icon_keys.g.dart';
 import '../../ui.dart';
 
 class HomeContainer extends StatefulWidget {

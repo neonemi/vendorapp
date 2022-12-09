@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   GetBannerImage bannerImage = state.response;
                                   if (kDebugMode) {
                                     print(
-                                        'response 3  ${bannerImage}');
+                                        'response 3  $bannerImage');
                                   }
                                   return bannerImage.data == null
                                       ?  Container( height: 200,)

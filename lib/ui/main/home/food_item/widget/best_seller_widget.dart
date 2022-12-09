@@ -9,14 +9,15 @@ import '../../food_details/food_details_screen.dart';
 
 class FoodBestSellerList extends StatefulWidget {
   final List<BestSellerData> bestSellerData;
-
-  const FoodBestSellerList({super.key, required this.bestSellerData});
+  final String itemName;
+  const FoodBestSellerList({super.key, required this.bestSellerData,required this.itemName});
   @override
   FoodBestSellerListState createState() => FoodBestSellerListState();
 }
 
 class FoodBestSellerListState extends State<FoodBestSellerList> {
   List<BestSellerData>? bestSellerData;
+  String? itemName;
   final cartController = Get.find<CartController>();
   int selectedIndex = 0;
   String cartListString = '';
@@ -24,6 +25,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
   void initState() {
     super.initState();
     bestSellerData = widget.bestSellerData;
+    itemName=widget.itemName;
     preference();
   }
 
@@ -61,7 +63,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                           imageProduct: bestSellerData![index].image!,
                           unitqty: bestSellerData![index].unitqty.toString(),
                           unitqtyname:
-                              bestSellerData![index].unitqtyname.toString(),
+                              bestSellerData![index].unitqtyname.toString(), categoryName: itemName!,
                         )));
               },
               child: Container(

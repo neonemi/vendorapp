@@ -1,12 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/core/core.dart';
+
+import '../../../ui.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({Key? key}) : super(key: key);
@@ -16,7 +13,6 @@ class AddressScreen extends StatefulWidget {
 }
 
 class AddressScreenState extends State<AddressScreen> {
-
   late final AddressCubit _cubit;
   @override
   void initState() {
@@ -31,22 +27,22 @@ class AddressScreenState extends State<AddressScreen> {
     return BlocProvider<AddressCubit>(
         create: (context) {
           _cubit = AddressCubit(context.read<CoreRepository>());
-         // _cubit.getProfile();
+          // _cubit.getProfile();
           return _cubit;
         },
-        child: BlocListener<AddressCubit,AddressState>(
-          listener: (context, state) {
-            if (state is UpdateProfileLoading) {
-              context.loaderOverlay.show();
-            } else {
-              context.loaderOverlay.hide();
-            }
+        child: BlocListener<AddressCubit, AddressState>(
+            listener: (context, state) {
+              if (state is AddressLoading) {
+                context.loaderOverlay.show();
+              } else {
+                context.loaderOverlay.hide();
+              }
 
-            if (state is AddressError) {
-              context.showToast(state.message);
-            }
-          },
-          child: Scaffold(
+              if (state is AddressError) {
+                context.showToast(state.message);
+              }
+            },
+            child: Scaffold(
               appBar: AppBar(
                 backgroundColor: AppTheme.appRed,
                 iconTheme: IconThemeData(color: AppTheme.appWhite),
@@ -67,8 +63,42 @@ class AddressScreenState extends State<AddressScreen> {
                   ),
                 ),
               ),
-
-        )));
+              body: Container(
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: ListView(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AddAddressScreen()));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 12,
+                            color: AppTheme.appRed,
+                          ),
+                          Text(
+                            'Add Address',
+                            style: TextStyle(
+                                color: AppTheme.appRed,
+                                fontSize: 16,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: AppTheme.appGrey,
+                    )
+                  ],
+                ),
+              ),
+            )));
   }
-
 }

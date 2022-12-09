@@ -17,7 +17,7 @@ extension AlertExtension on BuildContext {
       return Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -28,7 +28,7 @@ extension AlertExtension on BuildContext {
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                   child: Text('Alert',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600,fontSize: 18),textAlign: TextAlign.left,)),
               if(message.isNotEmpty)Container(
                   padding: const EdgeInsets.all(8),child: Text(message)),
@@ -68,7 +68,7 @@ extension AlertExtension on BuildContext {
       return Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -79,7 +79,7 @@ extension AlertExtension on BuildContext {
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
               Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Text(title,style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600,fontSize: 18),textAlign: TextAlign.left,)),
               GestureDetector(
                onTap: (){
@@ -186,9 +186,9 @@ extension AlertExtension on BuildContext {
             children:[
               Container(alignment: Alignment.centerLeft,
                   width: MediaQuery.of(context).size.width-100,
-                  child: Text('$title',style: TextStyle(color: AppTheme.appBlack,fontSize: 22),textAlign: TextAlign.left,)),
+                  child: Text(title,style: TextStyle(color: AppTheme.appBlack,fontSize: 22),textAlign: TextAlign.left,)),
              const SizedBox(height: 10,),
-              Text('$message',style: TextStyle(color: AppTheme.appBlack,fontSize: 16),textAlign: TextAlign.left,),
+              Text(message,style: TextStyle(color: AppTheme.appBlack,fontSize: 16),textAlign: TextAlign.left,),
               const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -243,7 +243,7 @@ extension AlertExtension on BuildContext {
         alignment: Alignment.center,
         child:Column(
             children:[
-              Text('$message'),
+              Text(message),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

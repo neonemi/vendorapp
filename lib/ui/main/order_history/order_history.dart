@@ -36,7 +36,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           ),
         ),
       ):null,
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: ListView(

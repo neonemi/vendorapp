@@ -145,7 +145,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                      // height: MediaQuery.of(context).size.height,
                       child: ListView(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(20,20,20,0),
@@ -203,7 +203,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                                               ),
                                             ),
                                             FoodBestSellerList(
-                                                bestSellerData: bestSellerData.data!,
+                                                bestSellerData: bestSellerData.data!, itemName: itemName,
                                               ),
                                           ],
                                         );
@@ -222,7 +222,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                                 if (state is FoodItemProductSuccess) {
                                   FoodAllProduct productData = state.response;
                                   if (kDebugMode) {
-                                    print('response 3  ${productData}');
+                                    print('response 3  $productData');
                                   }
                                   return productData.data == null
                                       ? Container(
@@ -245,7 +245,7 @@ class FoodItemScreenState extends State<FoodItemScreen> {
                                             ),
                                           ),
                                           FoodAllProductScreen(
-                                              productData: productData.data!.data!,
+                                              productData: productData.data!.data!, itemName: itemName,
                                             ),
                                         ],
                                       );

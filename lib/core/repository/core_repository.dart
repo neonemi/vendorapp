@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -91,18 +90,18 @@ class CoreRepository {
   Future getBannerImage() async {
     final Uri api = apiProvider.getUri(Apis.bannerImageUrl);
     final response = await apiProvider.get(api);
-    print('response 1 $response');
+    debugPrint('response 1 $response');
     GetBannerImage bannerImage = GetBannerImage.fromJson(response);
-    print('response 2 $bannerImage');
+    debugPrint('response 2 $bannerImage');
     return bannerImage;
   }
 
   Future getFoodCategory() async {
     final Uri api = apiProvider.getUri(Apis.categoryUrl);
     final response = await apiProvider.get(api);
-    print('response 1 $response');
+    debugPrint('response 1 $response');
     GetFoodCategory foodCategory = GetFoodCategory.fromJson(response);
-    print('response 2 $foodCategory');
+    debugPrint('response 2 $foodCategory');
     return foodCategory;
   }
 
@@ -140,12 +139,13 @@ class CoreRepository {
     }
     return UpdateProfileResponse.fromJson(response);
   }
+
   Future<UpdateProfileResponse> updateProfileFile(
       {required String name,
-        required String email,
-        required File? imageFile,
-        required DateTime? dob,
-        required DateTime? anniversary}) async {
+      required String email,
+      required File? imageFile,
+      required DateTime? dob,
+      required DateTime? anniversary}) async {
     final Uri api = apiProvider.getUri(Apis.updateProfile);
     String address = await localRepository.getAddress();
     String mobile = await localRepository.getMobile();
@@ -168,17 +168,17 @@ class CoreRepository {
     if (kDebugMode) {
       print(imageFile!.path);
     }
-    request.files.add(await http.MultipartFile.fromPath('image', imageFile!.path));
-    final response = await apiProvider.postMultipart(
-      request: request
-    );
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile!.path));
+    final response = await apiProvider.postMultipart(request: request);
     UpdateProfileResponse updateProfileResponse =
-    UpdateProfileResponse.fromJson(response);
+        UpdateProfileResponse.fromJson(response);
     if (kDebugMode) {
       print('json 1 $updateProfileResponse');
     }
     return UpdateProfileResponse.fromJson(response);
   }
+
 //  Future getBannerImage(String key) async {
 //       final Uri api = apiProvider
 //           .getUri(Apis.bannerImageUrl, queryParameters: {'key': key});
@@ -189,56 +189,55 @@ class CoreRepository {
   Future<bool> logout() {
     return localRepository.clearDatabase();
   }
+
 //https://mundamisthan.com/api/V1/products/2?sortbyprice=asc&type=1
   //.getUri('${Apis.allProductUrl}/$id?sortbyprice=$sortBy&type=$type'
-  Future getFoodProductFilter(String id,String sortBy,String type) async {
-      final Uri api = apiProvider
-          .getUri('${Apis.allProductUrl}/$id',queryParameters: {
-            'sortbyprice':sortBy,
-        'type':type
-      });
+  Future getFoodProductFilter(String id, String sortBy, String type) async {
+    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id',
+        queryParameters: {'sortbyprice': sortBy, 'type': type});
     final response = await apiProvider.get(api);
-    print('response 1 $response');
+    debugPrint('response 1 $response');
     FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
-    print('response 2 $foodCategory');
+    debugPrint('response 2 $foodCategory');
     return foodCategory;
   }
-    Future getFoodAllProduct(String id,String sortBy,String type) async {
+
+  Future getFoodAllProduct(String id, String sortBy, String type) async {
     // final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id');
-      final Uri api = apiProvider
-          .getUri('${Apis.allProductUrl}/$id',queryParameters: {
-        if(sortBy.isNotEmpty)
-          'sortbyprice': sortBy,
-        if(type.isNotEmpty)
-        'type':type
-      });
+    final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id',
+        queryParameters: {
+          if (sortBy.isNotEmpty) 'sortbyprice': sortBy,
+          if (type.isNotEmpty) 'type': type
+        });
     final response = await apiProvider.get(api);
-    print('response 1 $response');
+    debugPrint('response 1 $response');
     FoodAllProduct foodCategory = FoodAllProduct.fromJson(response);
-    print('response 2 $foodCategory');
+    debugPrint('response 2 $foodCategory');
     return foodCategory;
   }
+
   Future getFoodBestSeller(String id) async {
     final Uri api = apiProvider.getUri('${Apis.bestSellerUrl}/$id');
     final response = await apiProvider.get(api);
-    print('response 1 $response');
-    GetBestSellerResponse foodCategory = GetBestSellerResponse.fromJson(response);
-    print('response 2 $foodCategory');
+    debugPrint('response 1 $response');
+    GetBestSellerResponse foodCategory =
+        GetBestSellerResponse.fromJson(response);
+    debugPrint('response 2 $foodCategory');
     return foodCategory;
   }
+
   Future getFilter() async {
     final Uri api = apiProvider.getUri(Apis.filterUrl);
     final response = await apiProvider.get(api);
-    print('response 1 $response');
+    debugPrint('response 1 $response');
     FilterResponse filterResponse = FilterResponse.fromJson(response);
-    print('response 2 $filterResponse');
+    debugPrint('response 2 $filterResponse');
     return filterResponse;
   }
 
-  Future<GetSearchProduct> getSearchProduct(
-      {required String text}) async {
+  Future<GetSearchProduct> getSearchProduct({required String text}) async {
     final Uri api = apiProvider.getUri(Apis.searchUrl);
-    String body = jsonEncode({'q':text});
+    String body = jsonEncode({'q': text});
     final response = await apiProvider.post(
       requestBody: body,
       endPoint: api,
@@ -251,5 +250,109 @@ class CoreRepository {
       print('json 1 $getSearchProduct');
     }
     return getSearchProduct;
+  }
+
+  Future<SuccessResponse> addAddress(
+      {required String userid,
+      required String address,
+      required String location,
+      required String lat,
+      required String lng,
+      required String floor,
+      required String landmark,
+      required String pincode}) async {
+    final Uri api = apiProvider.getUri(Apis.addAddressUrl);
+    String body = jsonEncode({
+      'userid': userid,
+      'address': address,
+      'location': location,
+      'lat': lat,
+      'lng': lng,
+      'floor': floor,
+      'landmark': landmark,
+      'pincode': pincode
+    });
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json$response');
+    }
+    SuccessResponse otpSent = SuccessResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $otpSent');
+    }
+    return SuccessResponse.fromJson(response);
+  }
+
+  Future<SuccessResponse> updateAddress({
+    required String userid,
+    required String address,
+    required String location,
+    required String lat,
+    required String lng,
+    required String floor,
+    required String addressId,
+  }) async {
+    final Uri api = apiProvider.getUri(Apis.updateAddressUrl);
+    String body = jsonEncode({
+      'userid': userid,
+      'address': address,
+      'location': location,
+      'lat': lat,
+      'lng': lng,
+      'floor': floor,
+      'addressid': addressId
+    });
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json$response');
+    }
+    SuccessResponse otpSent = SuccessResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $otpSent');
+    }
+    return SuccessResponse.fromJson(response);
+  }
+
+  Future<SuccessResponse> defaultAddress({
+    required String addressId,
+    required String userid,
+  }) async {
+    final Uri api = apiProvider.getUri(Apis.defaultaddressUrl);
+    String body = jsonEncode({'userid': userid, 'addressid': addressId});
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json$response');
+    }
+    SuccessResponse otpSent = SuccessResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $otpSent');
+    }
+    return SuccessResponse.fromJson(response);
+  }
+
+  Future<SuccessResponse> deleteAddress({required String addressId}) async {
+    final Uri api = apiProvider.getUri(Apis.deleteaddressUrl);
+    String body = jsonEncode({'addressid': addressId});
+    final response = await apiProvider.post(
+      requestBody: body,
+      endPoint: api,
+    );
+    if (kDebugMode) {
+      print('json$response');
+    }
+    SuccessResponse otpSent = SuccessResponse.fromJson(response);
+    if (kDebugMode) {
+      print('json 1 $otpSent');
+    }
+    return SuccessResponse.fromJson(response);
   }
 }

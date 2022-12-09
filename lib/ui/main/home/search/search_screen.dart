@@ -81,8 +81,6 @@ class SearchScreenState extends State<SearchScreen> {
                       child: searchBar(
                           context, MediaQuery.of(context).size.width * 0.07)),
                   BlocBuilder<SearchCubit, SearchState>(
-                      buildWhen: (previous, current) =>
-                      current is SearchSuccess,
                       builder: (context, state) {
                         if (state is SearchSuccess) {
                           GetSearchProduct getSearchProduct =

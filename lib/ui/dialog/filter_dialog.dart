@@ -55,7 +55,7 @@ class FilterDialogBuilder {
                   if (state is FilterSuccess) {
                     FilterResponse filterData = state.response;
                     if (kDebugMode) {
-                      print('response 3  ${filterData}');
+                      print('response 3  $filterData');
                     }
 
                       final selectList = List<bool>.generate(
@@ -99,7 +99,7 @@ class FilterDialogBuilder {
                               ),
                             ],
                           );
-                        }):SizedBox.shrink();
+                        }):const SizedBox.shrink();
                   }
                   return const SizedBox.shrink();
                 })));

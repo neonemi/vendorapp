@@ -14,6 +14,7 @@ class FoodDetailsScreen extends StatefulWidget {
   final String imageProduct;
   final String unitqty;
   final String unitqtyname;
+  final String categoryName;
   const FoodDetailsScreen({
     super.key,
     required this.id,
@@ -26,6 +27,7 @@ class FoodDetailsScreen extends StatefulWidget {
     required this.imageProduct,
     required this.unitqty,
     required this.unitqtyname,
+    required this.categoryName,
   });
 
   @override
@@ -43,6 +45,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   String? imageProduct;
   String? unitqty;
   String? unitqtyname;
+  String? categoryName;
   @override
   void initState() {
     super.initState();
@@ -57,6 +60,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     imageProduct = widget.imageProduct;
     unitqty = widget.unitqty;
     unitqtyname = widget.unitqtyname;
+    categoryName=widget.categoryName;
     if (kDebugMode) {
       print(orderId);
     }
@@ -91,6 +95,10 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               color: AppTheme.appRed,
               height: MediaQuery.of(context).size.height * 1 / 4,
               width: MediaQuery.of(context).size.width,
+              child: Text('$categoryName',style: TextStyle(color: AppTheme.appWhite,
+                  fontSize: 20,
+                  fontStyle: FontStyle.normal,
+                  fontFamily: "Montserrat",),textAlign: TextAlign.center,),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +143,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                           // fixedSize: const Size(150, 52),
                           //////// HERE
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                         child: Text(
                           "ADD",
                           style:
