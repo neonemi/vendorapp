@@ -14,6 +14,15 @@ class AddressScreen extends StatefulWidget {
 
 class AddressScreenState extends State<AddressScreen> {
   late final AddressCubit _cubit;
+
+  final Map<String, dynamic> addressList = {
+    "title": ['Work', 'Home'],
+    "address": [
+      'Old Ginnani, Bikaner Fort, Bikaner, Rajasthan, India, 334001, Ginnani, 334001',
+      '322/41, Rambagh, Prayagraj, Uttar Pradesh 211003, India, Near Station, 455611'
+    ],
+    "selected":[false,false]
+  };
   @override
   void initState() {
     super.initState();
@@ -65,6 +74,8 @@ class AddressScreenState extends State<AddressScreen> {
               ),
               body: Container(
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 child: ListView(
                   children: [
                     GestureDetector(
@@ -73,29 +84,150 @@ class AddressScreenState extends State<AddressScreen> {
                             builder: (BuildContext context) =>
                                 const AddAddressScreen()));
                       },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 12,
-                            color: AppTheme.appRed,
-                          ),
-                          Text(
-                            'Add Address',
-                            style: TextStyle(
-                                color: AppTheme.appRed,
-                                fontSize: 16,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  size: 12,
+                                  color: AppTheme.appRed,
+                                ),
+                                Text(
+                                  'Add Address',
+                                  style: TextStyle(
+                                      color: AppTheme.appRed,
+                                      fontSize: 16,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: AppTheme.appGrey,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Divider(
-                      color: AppTheme.appGrey,
-                    )
+                    Container(
+                      child: Text(
+                        'Saved Addressess',
+                        style: TextStyle(
+                            color: AppTheme.appBlack,
+                            fontSize: 14,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Container(
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: addressList['title'].length,
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+
+                            return Container(
+                              alignment: Alignment.topLeft,
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(top: 10, bottom: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ListTile(
+                                        visualDensity:
+                                        const VisualDensity(horizontal: -2, vertical: -3),
+                                        title: Text(
+                                          addressList['title'][index],
+                                          style: TextStyle(
+                                              color: AppTheme.appBlack,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        trailing: addressList['selected'][index] != true
+                                            ? Image.asset(
+                                                AppIconKeys.unselected,
+                                                height: 20,
+                                                width: 20,
+                                                color: AppTheme.appBlack,
+                                              )
+                                            : Image.asset(
+                                                AppIconKeys.selected,
+                                                height: 20,
+                                                width: 20,
+                                                color: AppTheme.appBlack,
+                                              ),
+                                        onTap: () {
+                                          setState(() {
+                                            addressList['selected'][index] =
+                                                !addressList['selected'][index];
+                                          });
+                                          print(addressList['selected'][index]);
+                                        },
+                                    subtitle:  Text(
+                                      addressList['address'][index],
+                                      style: TextStyle(
+                                        color: AppTheme.appBlack,
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: const EdgeInsets.only(left: 15, right: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (BuildContext context) =>
+                                                const AddAddressScreen()));
+                                          },
+                                          child: Container(
+                                            width: 100,
+                                            child: Text(
+                                              'EDIT',
+                                              style: TextStyle(
+                                                  color: AppTheme.appRed,
+                                                  fontSize: 14,
+                                                  fontStyle: FontStyle.normal,
+                                                 ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 100,
+                                          child: Text(
+                                            'DELETE',
+                                            style: TextStyle(
+                                                color: AppTheme.appRed,
+                                                fontSize: 14,
+                                                fontStyle: FontStyle.normal,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
                   ],
                 ),
               ),
