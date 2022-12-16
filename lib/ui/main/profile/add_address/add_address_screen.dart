@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vendorapp/core/core.dart';
 
+import '../../../ui.dart';
+
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({Key? key}) : super(key: key);
 
@@ -121,7 +123,11 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              const SearchLocationScreen()));
+                        },
                         child: Container(
                           margin: const EdgeInsets.only(top: 10),
                           height: 40,
