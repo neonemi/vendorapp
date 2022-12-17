@@ -16,7 +16,9 @@ class SearchLocationScreen extends StatefulWidget {
 
 class _SearchLocationScreenState extends State<SearchLocationScreen> {
   late final SearchLocationCubit _cubit;
-
+  final double latitudevalue=28.0325;
+  final  double longitudevalue=73.3295;
+  final zoomvalue = 16.0;
   @override
   void initState() {
     super.initState();
@@ -30,19 +32,23 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
     currentLocation.onLocationChanged.listen((LocationData loc){
 
       _controller?.animateCamera(CameraUpdate.newCameraPosition( CameraPosition(
-        target: LatLng(location.latitude! , location.longitude!),
-        zoom: 1.6,
+        target: LatLng(latitudevalue , longitudevalue),
+        zoom:zoomvalue,
       )));
-      print(loc.latitude);//current latitude
-      print(loc.longitude);//current longitude
-      setState(() {
-        _markers.add( Marker(markerId: MarkerId(''),
-            position: LatLng(location.latitude! , location.longitude!),infoWindow: InfoWindow(
+      if (kDebugMode) {
+        print(loc.latitude);
+      }//current latitude
+      if (kDebugMode) {
+        print(loc.longitude);
+      }//current longitude
+      // setState(() {
+        _markers.add( Marker(markerId: const MarkerId(''),
+            position: LatLng(latitudevalue , longitudevalue),infoWindow: const InfoWindow(
                 title: ''
             )
         ));
 
-      });
+      // });
     });
   }
   @override
@@ -91,30 +97,30 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 ),
               ),
               body: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                // child:
-                // GoogleMap(
-                //   mapType: MapType.normal,
-                //   zoomControlsEnabled: false,
-                //   initialCameraPosition: CameraPosition(
-                //     target: LatLng(14.0 , 27.0),
-                //     zoom:1.6,
-                //   ),
-                //   onMapCreated: (GoogleMapController controller){
-                //     setState((){
-                //       _controller = controller;
-                //     });
-                //
-                //   },
-                //   minMaxZoomPreference: MinMaxZoomPreference(13,20),
-                //   gestureRecognizers: Set()
-                //     ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer())),
-                //   // onTap: (value){
-                //   //   _launchMapsUrl(value.latitude,value.longitude);
-                //   // },
-                //   markers: _markers,
-                // ) ,
+                height: 200,
+                width: 200,
+                child:
+                GoogleMap(
+                  mapType: MapType.normal,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition:  CameraPosition(
+                    target: LatLng(latitudevalue , longitudevalue),
+                    zoom:zoomvalue,
+                  ),
+                  onMapCreated: (GoogleMapController controller){
+                    setState((){
+                      _controller = controller;
+                    });
+
+                  },
+                  minMaxZoomPreference: const MinMaxZoomPreference(13,20),
+                  // gestureRecognizers: Set()
+                  //   ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer())),
+                  // onTap: (value){
+                  //   _launchMapsUrl(value.latitude,value.longitude);
+                  // },
+                  markers: _markers,
+                ) ,
               )
 
             );

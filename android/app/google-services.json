@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801473918390",
+    "project_id": "coral-atom-371705",
+    "storage_bucket": "coral-atom-371705.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801473918390:android:bd3b924961d9ed26ac7d17",
+        "android_client_info": {
+          "package_name": "com.neologicx.vendor.vendorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801473918390-109em0f9ddd7en9r22vhmbekh69cmt3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQeiG9l_iU9zc_4dSXghveQb4SOfOMRcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801473918390-109em0f9ddd7en9r22vhmbekh69cmt3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
