@@ -19,6 +19,17 @@ class FoodItemCubit extends Cubit<FoodItemState> {
       emit(FoodItemError(message));
     }
   }
+  void getSubCategory(String id) async {
+    emit(FoodItemLoading());
+    try {
+      GetSubCategory response = await coreRepository.getSubCategory(id);
+      emit(FoodSubCategorySuccess(response));
+      //getFoodBestSeller(id);
+    } catch (e) {
+      String message = e.toString().replaceAll('api - ', '');
+      emit(FoodItemError(message));
+    }
+  }
   void getFoodBestSeller(String id) async {
     emit(FoodItemLoading());
     try {

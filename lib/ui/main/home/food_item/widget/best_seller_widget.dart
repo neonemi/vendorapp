@@ -53,18 +53,19 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                 }
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => FoodDetailsScreen(
-                          id: bestSellerData![index].id!,
-                          orderId: bestSellerData![index].id!,
-                          unitPrice: bestSellerData![index].price!,
-                          price: bestSellerData![index].price!,
-                          quantity: 1,
-                          productId: bestSellerData![index].id!,
-                          nameProduct: bestSellerData![index].name!,
-                          imageProduct: bestSellerData![index].image!,
-                          unitqty: bestSellerData![index].unitqty.toString(),
-                          unitqtyname:
-                              bestSellerData![index].unitqtyname.toString(), categoryName: itemName!,
-                        )));
+                      id: bestSellerData![index].id!,
+                      orderId: bestSellerData![index].id!,
+                      unitPrice: bestSellerData![index].price!,
+                      price: bestSellerData![index].price!,
+                      quantity: 1,
+                      productId: bestSellerData![index].id!,
+                      nameProduct: bestSellerData![index].name!,
+                      imageProduct: bestSellerData![index].image!,
+                      unitqty: bestSellerData![index].unitqty.toString(),
+                      unitqtyname:
+                      bestSellerData![index].unitqtyname.toString(), categoryName: itemName!,
+                      gst: '', isDiscounted: '', discountedPrice: '',
+                    )));
               },
               child: Container(
                 width: 160,
@@ -80,7 +81,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                         borderRadius: BorderRadius.circular(20),
                         child: AppImageLoader(
                           imageUrl:
-                              Apis.imageBaseUrl + bestSellerData![index].image!,
+                          Apis.imageBaseUrl + bestSellerData![index].image!,
                           boxFit: BoxFit.cover,
                           height: 110,
                           width: 110,
@@ -96,145 +97,154 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
-                              TextStyle(color: AppTheme.appBlack, fontSize: 14),
+                          TextStyle(color: AppTheme.appBlack, fontSize: 14),
                         ),
                       ),
                     ),
                     SizedBox(
                       width: 160,
                       child: GetBuilder<CartController>(
-                          // no need to initialize Controller ever again, just mention the type
+                        // no need to initialize Controller ever again, just mention the type
                           builder: (value) {
-                        var cartDataList = <CartData>[].obs;
-                        cartListString =
-                            context.read<LocalRepository>().getCartList() ?? '';
-                        List<CartData>? cartList;
-                        CartData? cartData;
-                        if (cartListString != '') {
-                          cartList = CartData.decode(cartListString);
+                            var cartDataList = <CartData>[].obs;
+                            cartListString =
+                                context.read<LocalRepository>().getCartList() ?? '';
+                            List<CartData>? cartList;
+                            CartData? cartData;
+                            if (cartListString != '') {
+                              cartList = CartData.decode(cartListString);
 
-                          cartDataList.value = cartList;
+                              cartDataList.value = cartList;
 
-                          List<CartData> outputList = cartList
-                              .where((o) => o.id == bestSellerData![index].id)
-                              .toList();
+                              List<CartData> outputList = cartList
+                                  .where((o) => o.id == bestSellerData![index].id)
+                                  .toList();
 
-                          if (outputList.isNotEmpty) {
-                            cartData = outputList.first;
-                          } else {
-                            cartData = null;
-                          }
-                        }
+                              if (outputList.isNotEmpty) {
+                                cartData = outputList.first;
+                              } else {
+                                cartData = null;
+                              }
+                            }
 
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '₹${bestSellerData![index].price!}',
-                                  style: TextStyle(
-                                      color: AppTheme.appRed,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14),
-                                )),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                if (cartData != null &&
-                                    cartData.quantity! >= 1 &&
-                                    cartData.id == bestSellerData![index].id)
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (kDebugMode) {
-                                        print(cartData!.quantity);
-                                      }
-                                      cartController.counterRemoveProductToCart(
-                                          cartData!);
-                                      preference();
-                                    },
-                                    child: Container(
-                                        height: 20,
-                                        width: 20,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: AppTheme.appRed),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: AppTheme.appBlack,
-                                          size: 15,
-                                        )),
-                                  ),
-                                if (cartData != null &&
-                                    cartData.quantity! >= 1 &&
-                                    cartData.id == bestSellerData![index].id)
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                if (cartData != null &&
-                                    cartData.quantity! >= 1 &&
-                                    cartData.id == bestSellerData![index].id)
-                                  Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        cartData != null
-                                            ? '${cartData.quantity}'
-                                            : '',
-                                        style: TextStyle(
-                                            color: AppTheme.appRed,
-                                            fontWeight: FontWeight.w600),
-                                      )),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (cartData != null) {
-                                      if (kDebugMode) {
-                                        print('1 condition');
-                                      }
-                                      cartController
-                                          .counterAddProductToCart(cartData);
-                                      preference();
-                                      if (kDebugMode) {
-                                        print('3 condition');
-                                      }
-                                    } else {
-                                      if (kDebugMode) {
-                                        print(2);
-                                      }
-                                      cartController.addProductToCart(
-                                          id: bestSellerData![index].id!,
-                                          orderId: bestSellerData![index].id!,
-                                          unitPrice:
-                                              bestSellerData![index].price!,
-                                          price: bestSellerData![index].price!,
-                                          quantity: 1,
-                                          productId: bestSellerData![index].id!,
-                                          nameProduct:
-                                              bestSellerData![index].name!,
-                                          imageProduct:
-                                              bestSellerData![index].image!);
-                                      preference();
-                                    }
-                                  },
-                                  child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      alignment: Alignment.center,
-                                      decoration:
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '₹${bestSellerData![index].price!}',
+                                      style: TextStyle(
+                                          color: AppTheme.appRed,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
+                                    )),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    if (cartData != null &&
+                                        cartData.quantity! >= 1 &&
+                                        cartData.id == bestSellerData![index].id)
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (kDebugMode) {
+                                            print(cartData!.quantity);
+                                          }
+                                          cartController.counterRemoveProductToCart(
+                                              cartData!);
+                                          preference();
+                                        },
+                                        child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: AppTheme.appRed),
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: AppTheme.appBlack,
+                                              size: 15,
+                                            )),
+                                      ),
+                                    // if (cartData != null &&
+                                    //     cartData.quantity! >= 1 &&
+                                    //     cartData.id == bestSellerData![index].id)
+                                    //   const SizedBox(
+                                    //     width: 5,
+                                    //   ),
+                                    if (cartData != null &&
+                                        cartData.quantity! >= 1 &&
+                                        cartData.id == bestSellerData![index].id)
+                                      Container(
+                                          padding: EdgeInsets.fromLTRB(5,0, 5, 0),
+                                          margin: EdgeInsets.fromLTRB(0,5, 0, 5),
+                                          alignment:
+                                          Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color:  AppTheme.appRed,)
+                                          ),
+                                          child: Text(
+                                            cartData != null
+                                                ? '${cartData.quantity}'
+                                                : '',
+                                            style: TextStyle(
+                                                color: AppTheme.appRed,
+                                                fontWeight: FontWeight.w600),
+                                          )),
+                                    // const SizedBox(
+                                    //   width: 5,
+                                    // ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (cartData != null) {
+                                          if (kDebugMode) {
+                                            print('1 condition');
+                                          }
+                                          cartController
+                                              .counterAddProductToCart(cartData);
+                                          preference();
+                                          if (kDebugMode) {
+                                            print('3 condition');
+                                          }
+                                        } else {
+                                          if (kDebugMode) {
+                                            print(2);
+                                          }
+                                          cartController.addProductToCart(
+                                            id: bestSellerData![index].id!,
+                                            orderId: bestSellerData![index].id!,
+                                            unitPrice:
+                                            bestSellerData![index].price!,
+                                            price: bestSellerData![index].price!,
+                                            quantity: 1,
+                                            productId: bestSellerData![index].id!,
+                                            nameProduct:
+                                            bestSellerData![index].name!,
+                                            imageProduct:
+                                            bestSellerData![index].image!,
+                                            unitqty: bestSellerData![index].unitqty.toString(),
+                                            unitqtyname:
+                                            bestSellerData![index].unitqtyname.toString(), categoryName: itemName!, gst: '', isDiscounted: '', discountedPrice: '',);
+                                          preference();
+                                        }
+                                      },
+                                      child: Container(
+                                          height: 20,
+                                          width: 20,
+                                          alignment: Alignment.center,
+                                          decoration:
                                           BoxDecoration(color: AppTheme.appRed),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: AppTheme.appBlack,
-                                        size: 15,
-                                      )),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppTheme.appBlack,
+                                            size: 15,
+                                          )),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                          ],
-                        );
-                      }),
+                            );
+                          }),
                     ),
                   ],
                 ),

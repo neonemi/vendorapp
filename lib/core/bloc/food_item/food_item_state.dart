@@ -38,7 +38,14 @@ class FoodItemBestSellerSuccess extends FoodItemState {
   @override
   List<Object> get props => [response];
 }
+class FoodSubCategorySuccess extends FoodItemState {
+  const FoodSubCategorySuccess(this.response);
 
+  final GetSubCategory response;
+
+  @override
+  List<Object> get props => [response];
+}
 class FoodItemError extends FoodItemState {
   const FoodItemError(this.message);
 

@@ -33,16 +33,28 @@ class CartData {
   int? id;
   String? name;
   String? image;
-
-  CartData(
-      {this.orderId,
-        this.productId,
-        this.unitPrice,
-        this.quantity,
-        this.price,
-        this.id,
-        this.image,
-        this.name});
+  String? unitqty;
+  String? unitqtyname;
+  String? categoryName;
+  String? gst;
+  String? isDiscounted;
+  String? discountedPrice;
+  CartData({
+    this.orderId,
+    this.productId,
+    this.unitPrice,
+    this.quantity,
+    this.price,
+    this.id,
+    this.image,
+    this.name,
+    this.categoryName,
+    this.unitqty,
+    this.unitqtyname,
+    this.gst,
+    this.discountedPrice,
+    this.isDiscounted,
+  });
 
   CartData.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
@@ -50,10 +62,15 @@ class CartData {
     unitPrice = json['unitPrice'];
     quantity = json['quantity'];
     price = json['price'];
-
+    unitqty = json['unitqty'];
+    unitqtyname = json['unitqtyname'];
+    categoryName = json['categoryName'];
     id = json['id'];
     image = json['image'];
     name = json['name'];
+    gst = json['gst'];
+    discountedPrice = json['discounted_price'];
+    isDiscounted = json['is_discounted'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,11 +80,15 @@ class CartData {
     data['unitPrice'] = unitPrice;
     data['quantity'] = quantity;
     data['price'] = price;
-
+    data['unitqty'] = unitqty;
+    data['unitqtyname'] = unitqtyname;
+    data['categoryName'] = categoryName;
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
-
+    data['gst'] = gst;
+    data['is_discounted'] = isDiscounted;
+    data['discounted_price'] = discountedPrice;
     return data;
   }
 
@@ -77,9 +98,15 @@ class CartData {
     'unitPrice': cart.unitPrice,
     'quantity': cart.quantity,
     'price': cart.price,
+    'unitqty': cart.unitqty,
+    'categoryName': cart.categoryName,
+    'unitqtyname': cart.unitqtyname,
     'id': cart.id,
     'name': cart.name,
-    'image': cart.image
+    'image': cart.image,
+    'gst': cart.gst,
+    'discounted_price': cart.discountedPrice,
+    'is_discounted': cart.isDiscounted,
   };
   static String encode(List<CartData> cart) => json.encode(
     cart.map<Map<String, dynamic>>((cart) => CartData.toMap(cart)).toList(),

@@ -18,6 +18,9 @@ class FoodDetailsScreen extends StatefulWidget {
   final String unitqty;
   final String unitqtyname;
   final String categoryName;
+  final String? gst;
+  final String? isDiscounted;
+  final String? discountedPrice;
   const FoodDetailsScreen({
     super.key,
     required this.id,
@@ -31,11 +34,15 @@ class FoodDetailsScreen extends StatefulWidget {
     required this.unitqty,
     required this.unitqtyname,
     required this.categoryName,
+    required this.discountedPrice,
+    required this.isDiscounted,
+    required this.gst,
   });
 
   @override
   State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
 }
+
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   int? orderId;
@@ -52,6 +59,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   final cartController = Get.find<CartController>();
   int selectedIndex = 0;
   String cartListString = '';
+  String? gst;
+  String? isDiscounted;
+  String? discountedPrice;
   @override
   void initState() {
     super.initState();
@@ -67,6 +77,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     unitqty = widget.unitqty;
     unitqtyname = widget.unitqtyname;
     categoryName = widget.categoryName;
+    gst=gst;
+    isDiscounted=isDiscounted;
+    discountedPrice=discountedPrice;
     if (kDebugMode) {
       print(orderId);
     }
@@ -148,139 +161,152 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GetBuilder<CartController>(
-                      // no need to initialize Controller ever again, just mention the type
+                    // no need to initialize Controller ever again, just mention the type
                       builder: (value) {
-                    var cartDataList = <CartData>[].obs;
-                    cartListString =
-                        context.read<LocalRepository>().getCartList() ?? '';
-                    List<CartData>? cartList;
-                    CartData? cartData;
-                    if (cartListString != '') {
-                      cartList = CartData.decode(cartListString);
+                        var cartDataList = <CartData>[].obs;
+                        cartListString =
+                            context.read<LocalRepository>().getCartList() ?? '';
+                        List<CartData>? cartList;
+                        CartData? cartData;
+                        if (cartListString != '') {
+                          cartList = CartData.decode(cartListString);
 
-                      cartDataList.value = cartList;
+                          cartDataList.value = cartList;
 
-                      List<CartData> outputList =
+                          List<CartData> outputList =
                           cartList.where((o) => o.id == id).toList();
 
-                      if (outputList.isNotEmpty) {
-                        cartData = outputList.first;
-                      } else {
-                        cartData = null;
-                      }
-                    }
-                    return Container(
-                      margin: EdgeInsets.only(top: 20),
-                      height: 30,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (cartData != null &&
-                              cartData.quantity! >= 1 &&
-                              cartData.id == id)
-                            GestureDetector(
-                              onTap: () {
-                                if (kDebugMode) {
-                                  print(cartData!.quantity);
-                                }
-                                cartController
-                                    .counterRemoveProductToCart(cartData!);
-                                preference();
-                              },
-                              child: Container(
-                                  height: 20,
-                                  width: 20,
-                                  alignment: Alignment.center,
-                                  decoration:
-                                      BoxDecoration(color: AppTheme.appRed),
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: AppTheme.appBlack,
-                                    size: 15,
-                                  )),
-                            ),
-                          if (cartData != null &&
-                              cartData.quantity! >= 1 &&
-                              cartData.id == id)
-                            const SizedBox(
-                              width: 5,
-                            ),
-                          if (cartData != null &&
-                              cartData.quantity! >= 1 &&
-                              cartData.id == id)
-                            Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  cartData != null
-                                      ? '${cartData.quantity}'
-                                      : '',
-                                  style: TextStyle(
-                                      color: AppTheme.appRed,
-                                      fontWeight: FontWeight.w600),
-                                )),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                if (cartData != null) {
-                                  if (kDebugMode) {
-                                    print('1 condition');
-                                  }
-                                  cartController
-                                      .counterAddProductToCart(cartData!);
-                                  preference();
-                                  if (kDebugMode) {
-                                    print('3 condition');
-                                  }
-                                } else {
-                                  if (kDebugMode) {
-                                    print(2);
-                                  }
-                                  cartController.addProductToCart(
-                                      id: id!,
-                                      orderId: id!,
-                                      unitPrice: price!,
-                                      price: price!,
-                                      quantity: 1,
-                                      productId: id!,
-                                      nameProduct: nameProduct!,
-                                      imageProduct: imageProduct!);
-                                  preference();
-                                }
-                              },
-                              child: (cartData != null &&
-                                      cartData.quantity! >= 1 &&
-                                      cartData.id == id)
-                                  ? Container(
+                          if (outputList.isNotEmpty) {
+                            cartData = outputList.first;
+                          } else {
+                            cartData = null;
+                          }
+                        }
+                        return Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          height: 30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (cartData != null &&
+                                  cartData.quantity! >= 1 &&
+                                  cartData.id == id)
+                                GestureDetector(
+                                  onTap: () {
+                                    if (kDebugMode) {
+                                      print(cartData!.quantity);
+                                    }
+                                    cartController
+                                        .counterRemoveProductToCart(cartData!);
+                                    preference();
+                                  },
+                                  child: Container(
                                       height: 20,
                                       width: 20,
                                       alignment: Alignment.center,
                                       decoration:
-                                          BoxDecoration(color: AppTheme.appRed),
+                                      BoxDecoration(color: AppTheme.appRed),
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: AppTheme.appBlack,
+                                        size: 15,
+                                      )),
+                                ),
+                              // if (cartData != null &&
+                              //     cartData.quantity! >= 1 &&
+                              //     cartData.id == id)
+                              //   const SizedBox(
+                              //     width: 5,
+                              //   ),
+                              if (cartData != null &&
+                                  cartData.quantity! >= 1 &&
+                                  cartData.id == id)
+                                Container(
+                                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                    margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppTheme.appRed,
+                                        )),
+                                    child: Text(
+                                      cartData != null
+                                          ? '${cartData.quantity}'
+                                          : '',
+                                      style: TextStyle(
+                                          color: AppTheme.appRed,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                              // const SizedBox(
+                              //   width: 5,
+                              // ),
+                              GestureDetector(
+                                  onTap: () {
+                                    if (cartData != null) {
+                                      if (kDebugMode) {
+                                        print('1 condition');
+                                      }
+                                      cartController
+                                          .counterAddProductToCart(cartData!);
+                                      preference();
+                                      if (kDebugMode) {
+                                        print('3 condition');
+                                      }
+                                    } else {
+                                      if (kDebugMode) {
+                                        print(2);
+                                      }
+                                      cartController.addProductToCart(
+                                          id: id!,
+                                          orderId: id!,
+                                          unitPrice: price!,
+                                          price: price!,
+                                          quantity: 1,
+                                          productId: id!,
+                                          nameProduct: nameProduct!,
+                                          imageProduct: imageProduct!,
+                                          unitqty: unitqty!,
+                                          unitqtyname: unitqtyname!,
+                                          categoryName: categoryName!, gst: gst!, isDiscounted: isDiscounted!, discountedPrice: discountedPrice!);
+                                      preference();
+                                    }
+                                  },
+                                  child: (cartData != null &&
+                                      cartData.quantity! >= 1 &&
+                                      cartData.id == id)
+                                      ? Container(
+                                      height: 20,
+                                      width: 20,
+                                      alignment: Alignment.center,
+                                      decoration:
+                                      BoxDecoration(color: AppTheme.appRed),
                                       child: Icon(
                                         Icons.add,
                                         color: AppTheme.appBlack,
                                         size: 15,
                                       ))
-                                  : Container(
-                                      padding: const EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                height: 30,
-                                      decoration:
-                                          BoxDecoration(color: AppTheme.appRed),
-                                      child: Text(
-                                        "ADD",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: AppTheme.appBlack),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ))
-                        ],
-                      ),
-                    );
-                  }),
+                                      : Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                        top: 5,
+                                        bottom: 5),
+                                    height: 30,
+                                    decoration:
+                                    BoxDecoration(color: AppTheme.appRed),
+                                    child: Text(
+                                      "ADD",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: AppTheme.appBlack),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        );
+                      }),
                   Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -297,7 +323,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                       child: Text(
                         '$nameProduct',
                         style:
-                            TextStyle(color: AppTheme.appBlack, fontSize: 14),
+                        TextStyle(color: AppTheme.appBlack, fontSize: 14),
                       )),
                   Container(
                       width: MediaQuery.of(context).size.width,

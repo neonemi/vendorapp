@@ -65,6 +65,10 @@ class SearchProductScreenState extends State<SearchProductScreen> {
                       unitqty: productData![index].unitqty.toString(),
                       unitqtyname: productData![index].unitqtyname.toString(),
                       categoryName: productData![index].category.toString(),
+                      gst: productData![index].categoryrelation!.gst.toString(),
+                      isDiscounted: productData![index].isDiscounted.toString(),
+                      discountedPrice:
+                          productData![index].discountedPrice.toString(),
                     )));
           },
           child: SizedBox(
@@ -162,18 +166,24 @@ class SearchProductScreenState extends State<SearchProductScreen> {
                                         size: 15,
                                       )),
                                 ),
-                              if (cartData != null &&
-                                  cartData.quantity! >= 1 &&
-                                  cartData.id == productData![index].id)
-                                const SizedBox(
-                                  width: 5,
-                                ),
+                              // if (cartData != null &&
+                              //     cartData.quantity! >= 1 &&
+                              //     cartData.id == productData![index].id)
+                              //   const SizedBox(
+                              //     width: 5,
+                              //   ),
                               if (cartData != null &&
                                   cartData.quantity! >= 1 &&
                                   cartData.id == productData![index].id)
                                 Builder(builder: (context) {
                                   return Container(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                       alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                        color: AppTheme.appRed,
+                                      )),
                                       child: Text(
                                         cartData != null
                                             ? '${cartData.quantity}'
@@ -183,9 +193,9 @@ class SearchProductScreenState extends State<SearchProductScreen> {
                                             fontWeight: FontWeight.w600),
                                       ));
                                 }),
-                              const SizedBox(
-                                width: 5,
-                              ),
+                              // const SizedBox(
+                              //   width: 5,
+                              // ),
                               GestureDetector(
                                 onTap: () {
                                   if (cartData != null) {
@@ -203,15 +213,27 @@ class SearchProductScreenState extends State<SearchProductScreen> {
                                       print(2);
                                     }
                                     cartController.addProductToCart(
-                                        id: productData![index].id!,
-                                        orderId: productData![index].id!,
-                                        unitPrice: productData![index].price!,
-                                        price: productData![index].price!,
-                                        quantity: 1,
-                                        productId: productData![index].id!,
-                                        nameProduct: productData![index].name!,
-                                        imageProduct:
-                                            productData![index].image!);
+                                      id: productData![index].id!,
+                                      orderId: productData![index].id!,
+                                      unitPrice: productData![index].price!,
+                                      price: productData![index].price!,
+                                      quantity: 1,
+                                      productId: productData![index].id!,
+                                      nameProduct: productData![index].name!,
+                                      imageProduct: productData![index].image!,
+                                      unitqty: productData![index]
+                                          .unitqty
+                                          .toString(),
+                                      unitqtyname: productData![index]
+                                          .unitqtyname
+                                          .toString(),
+                                      categoryName: productData![index]
+                                          .category
+                                          .toString(),
+                                      gst: '',
+                                      isDiscounted: '',
+                                      discountedPrice: '',
+                                    );
                                     preference();
                                   }
                                 },

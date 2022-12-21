@@ -215,7 +215,15 @@ class CoreRepository {
     debugPrint('response 2 $foodCategory');
     return foodCategory;
   }
-
+  Future getSubCategory(String id) async {
+    // final Uri api = apiProvider.getUri('${Apis.allProductUrl}/$id');
+    final Uri api = apiProvider.getUri('${Apis.subCategory}/$id');
+    final response = await apiProvider.get(api);
+    debugPrint('response 1 $response');
+    GetSubCategory foodCategory = GetSubCategory.fromJson(response);
+    debugPrint('response 2 $foodCategory');
+    return foodCategory;
+  }
   Future getFoodBestSeller(String id) async {
     final Uri api = apiProvider.getUri('${Apis.bestSellerUrl}/$id');
     final response = await apiProvider.get(api);

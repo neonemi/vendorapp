@@ -10,6 +10,7 @@ class Apis {
   static String categoryUrl = "category";
   static String allProductUrl = "products";
   static String bestSellerUrl = "bestsellers";
+  static String subCategory = "subcategory";
   static String privacyUrl = "https://mundamisthan.com/privacypolicy";
   static String menuUrl = "https://mundamisthan.com/menu";
   static String filterUrl ="filters";

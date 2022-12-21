@@ -28,33 +28,42 @@ class CartController extends GetxController {
         required int quantity,
         required int productId,
         required String nameProduct,
-        required String imageProduct}) async {
+        required String imageProduct,
+        required String unitqty,
+        required String unitqtyname,
+        required String categoryName,
+        required String gst,
+        required String isDiscounted,
+        required String discountedPrice}) async {
     print('add product${quantity}');
-      cartDataList.add(
-        CartData(
-          id: id,
-          orderId:orderId,
-          productId: productId,
-          unitPrice:unitPrice,
-          quantity: quantity,
-          price: price,
-          image: imageProduct,
-          name: nameProduct,
-        ));
+    cartDataList.add(CartData(
+        id: id,
+        orderId: orderId,
+        productId: productId,
+        unitPrice: unitPrice,
+        quantity: quantity,
+        price: price,
+        image: imageProduct,
+        name: nameProduct,
+        unitqty: unitqty,
+        unitqtyname: unitqtyname,
+        categoryName: categoryName,
+        gst: gst,
+        isDiscounted: isDiscounted,
+        discountedPrice: discountedPrice));
 
-      final String encodedData = CartData.encode(cartDataList);
-      localRepository.setCartList(encodedData);
-      update();
-    }
-
+    final String encodedData = CartData.encode(cartDataList);
+    localRepository.setCartList(encodedData);
+    update();
+  }
 
   Future<void> counterAddProductToCart(CartData cartData) async {
-  print('add product${cartData.quantity}');
- //
- //    int quantityUpdate = cartData.quantity! > 0?cartData.quantity!:0 + 1;
- // if(cartData.quantity! >= 1){
-   int quantityUpdate = cartData.quantity! + 1;
-  if(quantityUpdate>=1){
+    print('add product${cartData.quantity}');
+    //
+    //    int quantityUpdate = cartData.quantity! > 0?cartData.quantity!:0 + 1;
+    // if(cartData.quantity! >= 1){
+    int quantityUpdate = cartData.quantity! + 1;
+    if (quantityUpdate >= 1) {
       CartData cartUpdate = CartData(
         id: cartData.id,
         orderId: cartData.orderId,
@@ -71,25 +80,32 @@ class CartController extends GetxController {
       final String encodedData = CartData.encode(cartDataList);
       localRepository.setCartList(encodedData);
       update();
-    }else{
-    addProductToCart(
-      id: cartData.id!,
-      orderId: cartData.orderId!,
-      productId: cartData.orderId!,
-      unitPrice: cartData.unitPrice!,
-      quantity: quantityUpdate,
-      price: cartData.price!,
-      nameProduct: cartData.name!, imageProduct: cartData.image!,
-    );
-  }
+    } else {
+      addProductToCart(
+        id: cartData.id!,
+        orderId: cartData.orderId!,
+        productId: cartData.orderId!,
+        unitPrice: cartData.unitPrice!,
+        quantity: quantityUpdate,
+        price: cartData.price!,
+        nameProduct: cartData.name!,
+        imageProduct: cartData.image!,
+        unitqty: cartData.unitqty!,
+        unitqtyname: cartData.unitqtyname!,
+        categoryName: cartData.categoryName!,
+        gst: cartData.gst!,
+        isDiscounted: cartData.isDiscounted!,
+        discountedPrice: cartData.discountedPrice!,
+      );
+    }
     // }
   }
 
   Future<void> counterRemoveProductToCart(CartData cartData) async {
     print('remove${cartData.quantity!}');
-    if(cartData.quantity!>=1){
+    if (cartData.quantity! > 1) {
       int quantityUpdate = cartData.quantity! + -1;
-    print('remove $quantityUpdate');
+      print('remove $quantityUpdate');
       CartData cartUpdate = CartData(
         id: cartData.id,
         orderId: cartData.orderId,
@@ -107,7 +123,7 @@ class CartController extends GetxController {
       final String encodedData = CartData.encode(cartDataList);
       localRepository.setCartList(encodedData);
       update();
-    }else{
+    } else {
       deleteFromCart(idOrder: cartData.orderId!);
     }
   }
@@ -121,13 +137,11 @@ class CartController extends GetxController {
     return total;
   }
 
-
   void deleteFromCart({required int idOrder}) async {
-
     cartDataList
         .removeAt(cartDataList.indexWhere((element) => element.id == idOrder));
     final String encodedData = CartData.encode(cartDataList);
-    localRepository.setCartList( encodedData);
+    localRepository.setCartList(encodedData);
     print('Done');
     update();
   }

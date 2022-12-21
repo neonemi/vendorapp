@@ -24,7 +24,7 @@ class HomeVerticalList extends StatelessWidget {
               Navigator.of(context).push(
               MaterialPageRoute(
               builder: (BuildContext context) =>
-               FoodItemScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!+1).toString():"",)))
+               FoodItemScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!).toString():"",)))
               },
               child: Stack(
                 children: [
