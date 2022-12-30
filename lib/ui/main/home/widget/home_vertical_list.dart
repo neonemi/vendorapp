@@ -21,10 +21,17 @@ class HomeVerticalList extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => {
-              Navigator.of(context).push(
-              MaterialPageRoute(
-              builder: (BuildContext context) =>
-               FoodItemScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!).toString():"",)))
+              // Navigator.of(context).push(
+              // MaterialPageRoute(
+              // builder: (BuildContext context) =>
+              //  FoodItemScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!).toString():"",)))
+
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            SubCategoryScreen(itemName: categoryData[index].name != null? categoryData[index].name.toString():"", id:  categoryData[index].id!=null? (categoryData[index].id!).toString():"", bannerImage: Apis.imageBaseUrl + categoryData[index].image!,)))
+
+
               },
               child: Stack(
                 children: [

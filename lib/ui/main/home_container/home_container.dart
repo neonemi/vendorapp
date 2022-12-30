@@ -19,11 +19,13 @@ class _HomeContainerState extends State<HomeContainer> {
   late HomeItems currentItem;
   DateTime? currentBackPressTime;
   bool login = false;
+  String cartListString = '';
   @override
   void initState() {
     super.initState();
     currentItem = widget.homeItem;
     userData();
+    preference();
   }
 
   Future<void> userData() async {
@@ -35,7 +37,15 @@ class _HomeContainerState extends State<HomeContainer> {
       print('is logged  $login');
     }
   }
-
+  Future<void> preference() async {
+    cartListString = context.read<LocalRepository>().getCartList();
+    setState(() {
+      cartListString;
+    });
+    if (kDebugMode) {
+      print('cartListString  $cartListString');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -58,18 +68,25 @@ class _HomeContainerState extends State<HomeContainer> {
         if (login != false) {
           return const OrderHistoryScreen(showAppBar: false,);
         } else {
-          AlertExtension(context).showSuccessAlert(message: 'Please register/login to continue.',cancelTextButton: 'NO',confirmTextButton: 'YES',onConfirm: (){
+          AlertExtension(context).showSuccessAlert(message: StringConstant.pleaseRegisterLogin,cancelTextButton: StringConstant.no,confirmTextButton: StringConstant.yes,onConfirm: (){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
               builder: (context) {
                 return const LoginScreen();
               },
             ), (e) => false);
-          }, height: 150, width: MediaQuery.of(context).size.width-40);
+          }, height: 150, width: MediaQuery.of(context).size.width-40, title: '');
           // showDialog();
           return const HomeScreen();
         }
       case HomeItems.myCart:
+      // if(cartListString.isNotEmpty) {
         return const CartScreen();
+    // }else{
+    //   AlertExtension(context).showCartEmptyAlert(height: 180, width: MediaQuery.of(context).size.width-40, title: '');
+    //   return const HomeScreen();
+    // }
+    // case HomeItems.smartList:
+    //   return const SmartListScreen();
       case HomeItems.profile:
         return const ProfileScreen();
       default:
@@ -78,7 +95,9 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   void showDialog() {
-    print('username hi');
+    if (kDebugMode) {
+      print('username hi');
+    }
   }
 
   int _getPageIndex() {
@@ -92,7 +111,13 @@ class _HomeContainerState extends State<HomeContainer> {
           return 0;
         }
       case HomeItems.myCart:
+      // if(cartListString.isNotEmpty) {
         return 2;
+    // }else{
+    //   return 0;
+    // }
+    // case HomeItems.smartList:
+    //   return 3;
       case HomeItems.profile:
         return 3;
       default:
@@ -116,8 +141,15 @@ class _HomeContainerState extends State<HomeContainer> {
           }
           break;
         case 2:
+        // if(cartListString.isNotEmpty) {
           currentItem = HomeItems.myCart;
+          // }else{
+          //   currentItem = HomeItems.myCart;
+          // }
           break;
+      // case 3:
+      //   currentItem = HomeItems.smartList;
+      //   break;
         case 3:
           currentItem = HomeItems.profile;
           break;
@@ -130,7 +162,7 @@ class _HomeContainerState extends State<HomeContainer> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
-      context.showToast('Press again to close app');
+      context.showToast(StringConstant.pressAgain);
       return Future.value(false);
     }
     return Future.value(true);
@@ -150,12 +182,12 @@ class _BottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
+        // sets the background color of the `BottomNavigationBar`
           canvasColor: AppTheme.appRed,
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: AppTheme.appRed,
           textTheme: Theme.of(context).textTheme.copyWith(
-                  caption: TextStyle(
+              caption: TextStyle(
                 color: AppTheme.appWhite,
               ))), // sets the inactive color of the `BottomNavigationBar`
 
@@ -167,12 +199,14 @@ class _BottomNavigationBar extends StatelessWidget {
         elevation: 0.0,
         onTap: onTapItem,
         items: [
-          _bottomNavigationBarItem(image: FontAwesome.home, text: 'Home'),
+          _bottomNavigationBarItem(image: FontAwesome.home, text: StringConstant.home),
           _bottomNavigationBarItem(
-              image: FontAwesome.file_text, text: 'Order History'),
+              image: FontAwesome.file_text, text: StringConstant.orderHistory),
           _bottomNavigationBarItem(
-              image: FontAwesome.shopping_cart, text: 'My Cart'),
-          _bottomNavigationBarItem(image: FontAwesome.male, text: 'Profile'),
+              image: FontAwesome.shopping_cart, text:StringConstant.myCart),
+          // _bottomNavigationBarItem(
+          //     image: FontAwesome.list, text: StringConstant.smartList),
+          _bottomNavigationBarItem(image: MaterialIcons.person, text: StringConstant.profile),
         ],
       ),
     );

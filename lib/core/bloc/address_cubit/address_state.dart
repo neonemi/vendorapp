@@ -46,6 +46,15 @@ class DeleteAddressSuccess extends AddressState {
   @override
   List<Object> get props => [response];
 }
+
+class AllAddressSuccess extends AddressState {
+  const AllAddressSuccess(this.response);
+
+  final GetAllAddressResponse response;
+
+  @override
+  List<Object> get props => [response];
+}
 class AddressError extends AddressState {
   const AddressError(this.message);
 

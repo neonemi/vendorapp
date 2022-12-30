@@ -13,7 +13,14 @@ class FoodItemLoading extends FoodItemState {
   @override
   List<Object> get props => [];
 }
+class FoodSubCategorySuccess extends FoodItemState {
+  const FoodSubCategorySuccess(this.response);
 
+  final GetSubCategory response;
+
+  @override
+  List<Object> get props => [response];
+}
 class FoodItemProductSuccess extends FoodItemState {
   const FoodItemProductSuccess(this.response);
 
@@ -38,14 +45,7 @@ class FoodItemBestSellerSuccess extends FoodItemState {
   @override
   List<Object> get props => [response];
 }
-class FoodSubCategorySuccess extends FoodItemState {
-  const FoodSubCategorySuccess(this.response);
 
-  final GetSubCategory response;
-
-  @override
-  List<Object> get props => [response];
-}
 class FoodItemError extends FoodItemState {
   const FoodItemError(this.message);
 

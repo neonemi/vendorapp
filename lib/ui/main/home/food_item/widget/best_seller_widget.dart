@@ -10,7 +10,11 @@ import '../../food_details/food_details_screen.dart';
 class FoodBestSellerList extends StatefulWidget {
   final List<BestSellerData> bestSellerData;
   final String itemName;
-  const FoodBestSellerList({super.key, required this.bestSellerData,required this.itemName});
+  const FoodBestSellerList({
+    super.key,
+    required this.bestSellerData,
+    required this.itemName,
+  });
   @override
   FoodBestSellerListState createState() => FoodBestSellerListState();
 }
@@ -25,7 +29,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
   void initState() {
     super.initState();
     bestSellerData = widget.bestSellerData;
-    itemName=widget.itemName;
+    itemName = widget.itemName;
     preference();
   }
 
@@ -38,8 +42,9 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 220,
+      alignment: Alignment.centerLeft,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: bestSellerData!.length,
@@ -63,8 +68,13 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                       imageProduct: bestSellerData![index].image!,
                       unitqty: bestSellerData![index].unitqty.toString(),
                       unitqtyname:
-                      bestSellerData![index].unitqtyname.toString(), categoryName: itemName!,
-                      gst: '', isDiscounted: '', discountedPrice: '',
+                      bestSellerData![index].unitqtyname.toString(),
+                      categoryName: itemName!,
+                      gst: '',
+                      isDiscounted:
+                      bestSellerData![index].isDiscounted.toString(),
+                      discountedPrice:
+                      bestSellerData![index].discountedPrice.toString(),
                     )));
               },
               child: Container(
@@ -94,7 +104,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           bestSellerData![index].name!,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style:
                           TextStyle(color: AppTheme.appBlack, fontSize: 14),
@@ -133,7 +143,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                                 Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '₹${bestSellerData![index].price!}',
+                                      '${StringConstant.rupeeSymbol}${bestSellerData![index].price!}',
                                       style: TextStyle(
                                           color: AppTheme.appRed,
                                           fontWeight: FontWeight.w600,
@@ -151,7 +161,7 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                                             print(cartData!.quantity);
                                           }
                                           cartController.counterRemoveProductToCart(
-                                              cartData!);
+                                              context, cartData!);
                                           preference();
                                         },
                                         child: Container(
@@ -176,13 +186,15 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                                         cartData.quantity! >= 1 &&
                                         cartData.id == bestSellerData![index].id)
                                       Container(
-                                          padding: EdgeInsets.fromLTRB(5,0, 5, 0),
-                                          margin: EdgeInsets.fromLTRB(0,5, 0, 5),
-                                          alignment:
-                                          Alignment.centerLeft,
+                                          padding:
+                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                          margin:
+                                          const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          alignment: Alignment.centerLeft,
                                           decoration: BoxDecoration(
-                                              border: Border.all(color:  AppTheme.appRed,)
-                                          ),
+                                              border: Border.all(
+                                                color: AppTheme.appRed,
+                                              )),
                                           child: Text(
                                             cartData != null
                                                 ? '${cartData.quantity}'
@@ -222,9 +234,21 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                                             bestSellerData![index].name!,
                                             imageProduct:
                                             bestSellerData![index].image!,
-                                            unitqty: bestSellerData![index].unitqty.toString(),
-                                            unitqtyname:
-                                            bestSellerData![index].unitqtyname.toString(), categoryName: itemName!, gst: '', isDiscounted: '', discountedPrice: '',);
+                                            unitqty: bestSellerData![index]
+                                                .unitqty
+                                                .toString(),
+                                            unitqtyname: bestSellerData![index]
+                                                .unitqtyname
+                                                .toString(),
+                                            categoryName: itemName!,
+                                            gst: '',
+                                            isDiscounted: bestSellerData![index]
+                                                .isDiscounted
+                                                .toString(),
+                                            discountedPrice: bestSellerData![index]
+                                                .discountedPrice
+                                                .toString(),
+                                          );
                                           preference();
                                         }
                                       },
@@ -232,8 +256,8 @@ class FoodBestSellerListState extends State<FoodBestSellerList> {
                                           height: 20,
                                           width: 20,
                                           alignment: Alignment.center,
-                                          decoration:
-                                          BoxDecoration(color: AppTheme.appRed),
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.appRed),
                                           child: Icon(
                                             Icons.add,
                                             color: AppTheme.appBlack,

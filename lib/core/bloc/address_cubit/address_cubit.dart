@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../../core.dart';
 
 part 'address_state.dart';
@@ -7,7 +9,7 @@ class AddressCubit extends Cubit<AddressState> {
   final CoreRepository coreRepository;
 
   void addAddress(
-      {required String userid,
+      {
       required String address,
       required String location,
       required String lat,
@@ -17,8 +19,12 @@ class AddressCubit extends Cubit<AddressState> {
       required String pincode}) async {
     emit(AddressLoading());
     try {
+      String? userId = await coreRepository.localRepository.getUserId();
+      if (kDebugMode) {
+        print(userId);
+      }
       SuccessResponse response = await coreRepository.addAddress(
-          userid: userid,
+          userid: userId!,
           address: address,
           location: location,
           lat: lat,
@@ -34,7 +40,7 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   void updateAddress(
-      {required String userid,
+      {
       required String address,
       required String location,
       required String lat,
@@ -43,8 +49,12 @@ class AddressCubit extends Cubit<AddressState> {
       required String addressId}) async {
     emit(AddressLoading());
     try {
+      String? userId = await coreRepository.localRepository.getUserId();
+      if (kDebugMode) {
+        print(userId);
+      }
       SuccessResponse response = await coreRepository.updateAddress(
-          userid: userid,
+          userid: userId!,
           address: address,
           location: location,
           lat: lat,
@@ -59,11 +69,18 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   void defaultAddress(
-      {required String userid, required String addressId}) async {
+      { required String addressId,required String location}) async {
+    String? userId = await coreRepository.localRepository.getUserId();
+    if (kDebugMode) {
+      print(userId);
+    }
     emit(AddressLoading());
     try {
-      SuccessResponse response = await coreRepository.defaultAddress(
-          addressId: addressId, userid: userid);
+      SuccessResponse response =
+       await coreRepository.defaultAddress(
+          addressId: addressId, userid: userId!);
+      coreRepository.localRepository.setAddress(location);
+      getAllAddress();
       emit(DefaultAddressSuccess(response));
     } catch (e) {
       String message = e.toString().replaceAll('api - ', '');
@@ -76,7 +93,24 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       SuccessResponse response =
           await coreRepository.deleteAddress(addressId: addressId);
+      getAllAddress();
       emit(DeleteAddressSuccess(response));
+    } catch (e) {
+      String message = e.toString().replaceAll('api - ', '');
+      emit(AddressError(message));
+    }
+  }
+
+  void getAllAddress() async {
+    emit(AddressLoading());
+    try {
+      String? userId = await coreRepository.localRepository.getUserId();
+      if (kDebugMode) {
+        print(userId);
+      }
+      GetAllAddressResponse response =
+      await coreRepository.getAllAddress(userId!);
+      emit(AllAddressSuccess(response));
     } catch (e) {
       String message = e.toString().replaceAll('api - ', '');
       emit(AddressError(message));

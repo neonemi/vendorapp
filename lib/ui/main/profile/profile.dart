@@ -4,3 +4,4 @@ export 'help/help_screen.dart';
 export 'address/address_screen.dart';
 export 'add_address/add_address_screen.dart';
 export 'search_location/search_location.dart';
+export 'notification/notification_screen.dart';

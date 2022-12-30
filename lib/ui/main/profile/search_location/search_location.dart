@@ -16,8 +16,9 @@ class SearchLocationScreen extends StatefulWidget {
 
 class _SearchLocationScreenState extends State<SearchLocationScreen> {
   late final SearchLocationCubit _cubit;
-  final double latitudevalue=28.0325;
-  final  double longitudevalue=73.3295;
+   double? latitudevalue;
+   double? longitudevalue;
+  LocationData? locationData;
   final zoomvalue = 16.0;
   @override
   void initState() {
@@ -26,13 +27,18 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
   }
   GoogleMapController? _controller;
   Location currentLocation = Location();
-  Set<Marker> _markers={};
+  final Set<Marker> _markers={};
   void getLocation() async{
     var location = await currentLocation.getLocation();
+    setState((){
+      locationData=location;
+        latitudevalue = location.latitude;
+        longitudevalue = location.longitude;
+    });
     currentLocation.onLocationChanged.listen((LocationData loc){
 
       _controller?.animateCamera(CameraUpdate.newCameraPosition( CameraPosition(
-        target: LatLng(latitudevalue , longitudevalue),
+        target: LatLng(latitudevalue??0.0 , longitudevalue??0.0),
         zoom:zoomvalue,
       )));
       if (kDebugMode) {
@@ -43,13 +49,18 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
       }//current longitude
       // setState(() {
         _markers.add( Marker(markerId: const MarkerId(''),
-            position: LatLng(latitudevalue , longitudevalue),infoWindow: const InfoWindow(
+            position: LatLng(latitudevalue??0.0 , longitudevalue??0.0),infoWindow: const InfoWindow(
                 title: ''
             )
         ));
 
       // });
     });
+  }
+  Future<bool> _onWillPop() {
+    print('blb back');
+      Navigator.pop(context, );
+    return Future.value(false);
   }
   @override
   Widget build(BuildContext context) {
@@ -76,53 +87,56 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
         child:
         BlocBuilder<SearchLocationCubit,SearchLocationState>(builder: (context, state) {
 
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: AppTheme.appRed,
-                centerTitle: true,
-                elevation: 0.0,
-                iconTheme: IconThemeData(color: AppTheme.appWhite),
-                title: Container(
-                  height: 50,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Search Location',
-                    style: TextStyle(
-                        color: AppTheme.appWhite,
-                        fontSize: 20,
-                        fontStyle: FontStyle.normal,
-                        fontFamily: "Montserrat"),
-                    textAlign: TextAlign.center,
+            return WillPopScope(
+                  onWillPop: _onWillPop,
+              child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: AppTheme.appRed,
+                  centerTitle: true,
+                  elevation: 0.0,
+                  iconTheme: IconThemeData(color: AppTheme.appWhite),
+                  title: Container(
+                    height: 50,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Search Location',
+                      style: TextStyle(
+                          color: AppTheme.appWhite,
+                          fontSize: 20,
+                          fontStyle: FontStyle.normal,
+                          fontFamily: "Montserrat"),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
+                body: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width:  MediaQuery.of(context).size.width,
+                  child:
+                  GoogleMap(
+                    mapType: MapType.normal,
+                    zoomControlsEnabled: false,
+                    initialCameraPosition:  CameraPosition(
+                      target: LatLng(latitudevalue??0.0 , longitudevalue??0.0),
+                      zoom:zoomvalue,
+                    ),
+                    onMapCreated: (GoogleMapController controller){
+                      setState((){
+                        _controller = controller;
+                      });
+
+                    },
+                    minMaxZoomPreference: const MinMaxZoomPreference(13,20),
+                    // gestureRecognizers: Set()
+                    //   ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer())),
+                    // onTap: (value){
+                    //   _launchMapsUrl(value.latitude,value.longitude);
+                    // },
+                    markers: _markers,
+                  ) ,
+                )
+
               ),
-              body: SizedBox(
-                height: 200,
-                width: 200,
-                child:
-                GoogleMap(
-                  mapType: MapType.normal,
-                  zoomControlsEnabled: false,
-                  initialCameraPosition:  CameraPosition(
-                    target: LatLng(latitudevalue , longitudevalue),
-                    zoom:zoomvalue,
-                  ),
-                  onMapCreated: (GoogleMapController controller){
-                    setState((){
-                      _controller = controller;
-                    });
-
-                  },
-                  minMaxZoomPreference: const MinMaxZoomPreference(13,20),
-                  // gestureRecognizers: Set()
-                  //   ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer())),
-                  // onTap: (value){
-                  //   _launchMapsUrl(value.latitude,value.longitude);
-                  // },
-                  markers: _markers,
-                ) ,
-              )
-
             );
         }),
       ),

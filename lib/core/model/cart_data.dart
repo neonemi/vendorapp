@@ -93,24 +93,24 @@ class CartData {
   }
 
   static Map<String, dynamic> toMap(CartData cart) => {
-    'order_id': cart.orderId,
-    'product_id': cart.productId,
-    'unitPrice': cart.unitPrice,
-    'quantity': cart.quantity,
-    'price': cart.price,
-    'unitqty': cart.unitqty,
-    'categoryName': cart.categoryName,
-    'unitqtyname': cart.unitqtyname,
-    'id': cart.id,
-    'name': cart.name,
-    'image': cart.image,
-    'gst': cart.gst,
-    'discounted_price': cart.discountedPrice,
-    'is_discounted': cart.isDiscounted,
-  };
+        'order_id': cart.orderId,
+        'product_id': cart.productId,
+        'unitPrice': cart.unitPrice,
+        'quantity': cart.quantity,
+        'price': cart.price,
+        'unitqty': cart.unitqty,
+        'categoryName': cart.categoryName,
+        'unitqtyname': cart.unitqtyname,
+        'id': cart.id,
+        'name': cart.name,
+        'image': cart.image,
+        'gst': cart.gst,
+        'discounted_price': cart.discountedPrice,
+        'is_discounted': cart.isDiscounted,
+      };
   static String encode(List<CartData> cart) => json.encode(
-    cart.map<Map<String, dynamic>>((cart) => CartData.toMap(cart)).toList(),
-  );
+        cart.map<Map<String, dynamic>>((cart) => CartData.toMap(cart)).toList(),
+      );
 
   static List<CartData> decode(String musics) =>
       (json.decode(musics) as List<dynamic>)

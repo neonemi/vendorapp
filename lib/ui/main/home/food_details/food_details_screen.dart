@@ -43,7 +43,6 @@ class FoodDetailsScreen extends StatefulWidget {
   State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
 }
 
-
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   int? orderId;
   int? productId;
@@ -111,7 +110,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   color: AppTheme.appWhite,
                   fontSize: 20,
                   fontStyle: FontStyle.normal,
-                  fontFamily: "Montserrat"),
+                  fontFamily: StringConstant.fontFamily),
               textAlign: TextAlign.center,
             ),
           ),
@@ -128,7 +127,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   color: AppTheme.appWhite,
                   fontSize: 20,
                   fontStyle: FontStyle.normal,
-                  fontFamily: "Montserrat",
+                  fontFamily: StringConstant.fontFamily,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -198,7 +197,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                       print(cartData!.quantity);
                                     }
                                     cartController
-                                        .counterRemoveProductToCart(cartData!);
+                                        .counterRemoveProductToCart(context,cartData!);
                                     preference();
                                   },
                                   child: Container(
@@ -268,7 +267,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                           imageProduct: imageProduct!,
                                           unitqty: unitqty!,
                                           unitqtyname: unitqtyname!,
-                                          categoryName: categoryName!, gst: gst!, isDiscounted: isDiscounted!, discountedPrice: discountedPrice!);
+                                          categoryName: categoryName!, gst: gst.toString(), isDiscounted: isDiscounted.toString(), discountedPrice: discountedPrice.toString());
                                       preference();
                                     }
                                   },
@@ -329,7 +328,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Text(
-                        '₹$price',
+                        '${StringConstant.rupeeSymbol}$price',
                         style: TextStyle(
                             color: AppTheme.appRed,
                             fontWeight: FontWeight.w600,

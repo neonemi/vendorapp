@@ -1,0 +1,1 @@
+export 'sub_catergory_vertical.dart';

@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -58,4 +60,55 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
+  void placeOrder(
+   String cartamount,
+   String coupon,
+   String finalamount) async {
+    emit(CartLoading());
+    try {
+      String? mobile = await coreRepository.localRepository.getMobile();
+      String? name = await coreRepository.localRepository.getUserName();
+      String? address = await coreRepository.localRepository.getAddress();
+      bool? login =await coreRepository.localRepository.isLoggedIn();
+      print(name);
+      print(mobile);
+      print(address);
+      String productListString = coreRepository.localRepository.getProductList() ?? '';
+      print(productListString);
+      if(login==true){
+        GetOrderResponse response = await coreRepository.order(
+            mobile: mobile!,
+            name: name,
+            address: address!,
+            products: productListString,
+            cartamount: cartamount,
+            coupon: coupon,
+            finalamount: finalamount);
+        print(jsonEncode(response));
+        // {"status":200,"message":"Order Created Successfully","order_id":531,"payment_status":"pending"}
+        emit(CartOrderPlacedSuccess(response));
+      }else{
+        emit(CartLoginError());
+      }
+    } catch (e) {
+      String message = e.toString().replaceAll('api - ', '');
+     emit(CartError(message));
+    }
+  }
+
+  void paymentPayload(
+      String orderId,
+      String transactionId,
+      String paymentStatus) async {
+    emit(CartLoading());
+    try {
+      //product array add qty
+      String? userId = await coreRepository.localRepository.getUserId();
+      GetPaymentPayloadResponse response = await coreRepository.paymentPayload(orderId: orderId, userId: userId!, transactionId: transactionId, paymentStatus: paymentStatus);
+      emit(CartPaymentPayloadSuccess(response));
+    } catch (e) {
+      String message = e.toString().replaceAll('api - ', '');
+      emit(CartError(message));
+    }
+  }
 }

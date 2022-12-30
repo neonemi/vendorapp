@@ -167,13 +167,14 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                         child: Container(
                                             height: 40,
                                             width: 40,
+                                            alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                                 color: AppTheme.appRed,
                                                 shape: BoxShape.circle),
                                             child: Icon(
-                                              Icons.facebook,
+                                              Icons.edit,
                                               color: AppTheme.appWhite,
-                                              size: 40,
+                                              size: 20,
                                             )))
                                   ],
                                 ),
@@ -1442,7 +1443,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (kDebugMode) {
       print(birthdaySelectedDate);
     }
-    if (_nameController.isNotEmpty && _nameController.length > 3) {
+    if (_nameController.isNotEmpty && _nameController.length > 2) {
       if (_emailController.isNotEmpty &&
           AppFunctions.isEmailValid(_emailController)) {
         if(_image==null) {
@@ -1461,7 +1462,11 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
               anniversary: anniversarySelectedDate
           );
         }
+      }else{
+        context.showToast("Please enter email");
       }
+    }else{
+      context.showToast("Please enter name");
     }
   }
 

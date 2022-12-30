@@ -126,39 +126,28 @@ class ApiProvider {
     return await _handleResponse(response);
   }
 
-  Future<dynamic> delete({
-    Object? requestBody,
-    required Uri endPoint,
-    bool auth = true,
-  }) async {
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    };
+  Future<dynamic> delete(Uri endPoint, {bool auth = true}) async {
+    final Map<String, String> headers;
     if (auth) {
-      headers['Authorization'] = 'Bearer $token';
+      headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+    } else {
+      headers = {'Content-Type': 'application/json'};
     }
-    late http.Response response;
 
+    late http.Response response;
     try {
-      response = await http
-          .delete(
-            endPoint,
-            headers: headers,
-          )
-          .timeout(
-            Duration(seconds: _timeOut),
-            onTimeout: _onTimeOut,
-          );
+      response = await http.delete(endPoint, headers: headers).timeout(
+        Duration(seconds: _timeOut),
+        onTimeout: _onTimeOut,
+      );
     } catch (e) {
       throw (HttpException(e.toString()));
     }
-    final Map<String, dynamic> res = json.decode(response.body);
-    bool success = res['success'];
-
-    return success;
+    return await _handleResponse(response);
   }
-
   postMultipart({
     var request,
     bool setContentType = true,

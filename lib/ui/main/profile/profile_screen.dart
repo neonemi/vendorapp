@@ -208,7 +208,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: AppTheme.appBlack,
                             size: 22,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                const NotificationScreen()));
+                          },
                         ),
                         ListTile(
                           visualDensity:
@@ -498,9 +502,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         cancelTextButton: 'NO',
         confirmTextButton: 'YES',
         onConfirm: () {
-         _cubit.logout();
+          _cubit.logout();
         },
         height: 150,
-        width: MediaQuery.of(context).size.width - 40);
+        width: MediaQuery.of(context).size.width - 40, title: '');
   }
 }

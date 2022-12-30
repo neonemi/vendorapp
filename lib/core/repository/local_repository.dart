@@ -68,6 +68,16 @@ class LocalRepository {
     //print(cartDataList);
     return cartDataList;
   }
+  setProductList(String productDataList) async {
+    return _preferences!.setString(SharedPrefKeys.productDataList, productDataList);
+  }
+
+  String getProductList()  {
+    String? productDataList =
+    ( _preferences!.getString(SharedPrefKeys.productDataList) ?? "");
+    //print(cartDataList);
+    return productDataList;
+  }
   setIsRegistered(bool register) async {
     return _preferences!
         .setBool(SharedPrefKeys.isDeviceRegisteredConstant, register);
@@ -183,5 +193,6 @@ class SharedPrefKeys {
   static const countConstant = "COUNT";
   static const isDeviceRegisteredConstant = "IS_THIS_REGISTERED";
   static const cartDataList="cartDataList";
+  static const productDataList="productDataList";
 
 }

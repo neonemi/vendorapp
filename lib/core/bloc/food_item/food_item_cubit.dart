@@ -11,7 +11,7 @@ class FoodItemCubit extends Cubit<FoodItemState> {
   void getFoodProduct(String id,String sortBy,String type) async {
     emit(FoodItemLoading());
     try {
-        FoodAllProduct response = await coreRepository.getFoodAllProduct(id,sortBy,type);
+      FoodAllProduct response = await coreRepository.getFoodAllProduct(id,sortBy,type);
       emit(FoodItemProductSuccess(response));
       //getFoodBestSeller(id);
     } catch (e) {

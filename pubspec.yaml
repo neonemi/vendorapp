@@ -59,6 +59,10 @@ dependencies:
   geocoding:
   google_maps_flutter:
   location:
+  esc_pos_printer: 4.1.0
+  esc_pos_utils: 1.1.0
+  printing: 5.9.3
+  pdf: 3.8.4
 #  hive_flutter: ^1.1.0
 #  floor: ^1.3.0
 #  sqflite: ^2.2.2
