@@ -45,7 +45,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 0.0,
-        crossAxisSpacing: 5.0,
+        crossAxisSpacing: 0.0,
         crossAxisCount: 2,
       ),
       itemBuilder: (context, index) {
@@ -82,7 +82,7 @@ class FoodAllProductScreenState extends State<FoodAllProductScreen> {
                         imageUrl:
                         Apis.imageBaseUrl + productData![index].image!,
                         boxFit: BoxFit.cover,
-                        height: 100,
+                        height: 120,
                         width: 120,
                       ),
                     ),

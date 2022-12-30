@@ -68,7 +68,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           canChangePageFormat: false,
           canChangeOrientation: false,
           canDebug: false,
-          build: (format) => _generatePdf(format, 'Kirana App'),
+          pdfFileName: 'MundaReceipt${customerOrderData!.id}',
+          build: (format) => _generatePdf(format, 'Munda App'),
         ),
       ),
       // SingleChildScrollView(

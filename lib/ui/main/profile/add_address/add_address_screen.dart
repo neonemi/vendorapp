@@ -9,7 +9,14 @@ import 'package:vendorapp/core/core.dart';
 import '../../../ui.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  String? title,
+      location,
+      landmark,
+      latValue,
+      longValue,
+      pincode;
+  dynamic floor;
+  AddAddressScreen({Key? key,this.floor,this.pincode,this.landmark,this.location,this.longValue,this.latValue,this.title}) : super(key: key);
 
   @override
   AddAddressScreenState createState() => AddAddressScreenState();
@@ -30,6 +37,39 @@ class AddAddressScreenState extends State<AddAddressScreen> {
   @override
   void initState() {
     super.initState();
+    if(widget.floor!=null){
+      _floorController=widget.floor.toString();
+    }
+    if(widget.pincode!=null ){
+      if(widget.pincode!.isNotEmpty){
+        _pinController = widget.pincode!;
+      }
+    }
+    if(widget.longValue!=null ){
+      if(widget.longValue!.isNotEmpty){
+        longValue = widget.longValue!;
+      }
+    }
+    if(widget.latValue!=null ){
+      if(widget.latValue!.isNotEmpty){
+        latValue = widget.latValue!;
+      }
+    }
+    if(widget.location!=null ){
+      if(widget.location!.isNotEmpty){
+        locationValue = widget.location!;
+      }
+    }
+    if(widget.landmark!=null ){
+      if(widget.landmark!.isNotEmpty){
+        _landMarkController = widget.landmark!;
+      }
+    }
+    if(widget.title!=null ){
+      if(widget.title!.isNotEmpty){
+        _titleController = widget.title!;
+      }
+    }
     locationFunction();
   }
 

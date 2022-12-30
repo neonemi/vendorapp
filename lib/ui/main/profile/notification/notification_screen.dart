@@ -63,16 +63,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       onTap: () {
                         _cubit.readNotifications();
                       },
-                      child: Icon(Icons.more_vert, color: AppTheme.appWhite))
+                      child: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Icon(
+                            Icons.more_vert,
+                            color: AppTheme.appWhite,
+                            size: 32,
+                          )))
                 ],
               ),
               body: BlocBuilder<NotificationCubit, NotificationState>(
                   builder: (context, state) {
-                    if (state is NotificationLoading) {
-                      context.loaderOverlay.show();
-                    } else {
-                      context.loaderOverlay.hide();
-                    }
+                if (state is NotificationLoading) {
+                  context.loaderOverlay.show();
+                } else {
+                  context.loaderOverlay.hide();
+                }
                 if (state is NotificationSuccess) {}
                 if (state is NotificationReadSuccess) {}
                 return Container(

@@ -144,9 +144,9 @@ extension AlertExtension on BuildContext {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
+                  TextButton(
                     onPressed: () => SmartDialog.dismiss(),
-                    child: Text(cancelTextButton ??'Cancel',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600),textAlign: TextAlign.left,),
+                    child: Text(cancelTextButton ??'Cancel',style: TextStyle(color: AppTheme.appBlack,fontWeight: FontWeight.w600,fontSize: 16),textAlign: TextAlign.left,),
                   ),
                 ],
               )

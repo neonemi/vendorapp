@@ -169,11 +169,11 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                             width: 40,
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
-                                                color: AppTheme.appRed,
+                                                color: AppTheme.appWhite,
                                                 shape: BoxShape.circle),
                                             child: Icon(
                                               Icons.edit,
-                                              color: AppTheme.appWhite,
+                                              color: AppTheme.appRed,
                                               size: 20,
                                             )))
                                   ],
@@ -623,13 +623,14 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                         child: Container(
                                             height: 40,
                                             width: 40,
+                                            alignment: Alignment.center,
                                             decoration: BoxDecoration(
-                                                color: AppTheme.appRed,
+                                                color: AppTheme.appWhite,
                                                 shape: BoxShape.circle),
                                             child: Icon(
-                                              Icons.facebook,
-                                              color: AppTheme.appWhite,
-                                              size: 40,
+                                              Icons.edit,
+                                              color: AppTheme.appRed,
+                                              size: 20,
                                             )))
                                   ],
                                 ),
@@ -1059,13 +1060,14 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       child: Container(
                                           height: 40,
                                           width: 40,
+                                          alignment: Alignment.center,
                                           decoration: BoxDecoration(
-                                              color: AppTheme.appRed,
+                                              color: AppTheme.appWhite,
                                               shape: BoxShape.circle),
                                           child: Icon(
-                                            Icons.facebook,
-                                            color: AppTheme.appWhite,
-                                            size: 40,
+                                            Icons.edit,
+                                            color: AppTheme.appRed,
+                                            size: 20,
                                           )))
                                 ],
                               ),
@@ -1545,7 +1547,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
       onGallery: () {
         getImagefromGallery();
       },
-      height: 210,
+      height: 220,
       width: MediaQuery.of(context).size.width - 40,
     );
   }

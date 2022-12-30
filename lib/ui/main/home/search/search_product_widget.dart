@@ -87,7 +87,7 @@ class SearchProductScreenState extends State<SearchProductScreen> {
                         imageUrl:
                         Apis.imageBaseUrl + productData![index].image!,
                         boxFit: BoxFit.cover,
-                        height: 150,
+                        height: 120,
                         width: 120,
                       ),
                     ),
